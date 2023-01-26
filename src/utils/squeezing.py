@@ -59,7 +59,7 @@ def calc_alpha(height: float, width: float, inlet_width: float, epsilon: float,
         (fill_radius / width)**2) + (PI / 4) * (height / width) * (
             (pinch_radius / width) - (fill_radius / width))
 
-    alpha = const * flow_ratio * geometries
+    alpha = const * geometries / flow_ratio
 
     return alpha
 
