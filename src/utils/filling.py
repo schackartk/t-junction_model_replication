@@ -209,6 +209,9 @@ def calc_nondim_fill_volume(height: float, width: float,
     `inlet_width`: inlet channel width
     """
 
+    if 0 in [height, width, inlet_width]:
+        return None
+
     fill_volume = calc_fill_volume(height, width, inlet_width)
 
     non_dim_volume = fill_volume / (height * width**2)
@@ -252,3 +255,8 @@ def test_calc_nondim_fill_volume() -> None:
     actual_out = calc_nondim_fill_volume(height, width, inlet_width)
 
     assert actual_out == pytest.approx(exp_out)
+
+    # returns None if any arguments are zero
+    assert calc_nondim_fill_volume(0., 1., 1.) is None
+    assert calc_nondim_fill_volume(1., 0., 1.) is None
+    assert calc_nondim_fill_volume(1., 1., 0.) is None
