@@ -36,6 +36,53 @@ def calc_squeezing_volume(height: float, width: float, inlet_width: float,
 
 
 # -------------------------------------------------------------------------------------
+def calc_nondim_squeeze_volume(height: float, width: float, inlet_width: float,
+                               epsilon: float, flow_cont: float,
+                               flow_disp: float, flow_gutter: float) -> float:
+    """
+    Calculate the volume of the droplet due to squeezing phase
+
+    Arguments:
+    `height`: channel height
+    `width`: channel width
+    `inlet_width`: inlet channel width
+    `epsilon`: corner roundness
+    `flow_cont`: volumetric flow rate of continuous phase
+    `flow_disp`: volumetric flow rate of dispersed phase
+    `flow_gutter`: volumetric flow rate of gutter
+    """
+
+    squeeze_volume = calc_squeezing_volume(height, width, inlet_width, epsilon,
+                                           flow_cont, flow_disp, flow_gutter)
+
+    nondim_volume = squeeze_volume / (height * (width**2))
+
+    return nondim_volume
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_nondim_squeeze_volume() -> None:
+    """ Test calc_nondim_squeeze_volume() """
+
+    height = 1.
+    width = 7.
+    inlet_width = 5.
+    epsilon = 0.1
+    flow_cont = 6.
+    flow_gutter = 0.5
+    flow_disp = 3.
+
+    alpha = calc_alpha(height, width, inlet_width, epsilon, flow_cont,
+                       flow_gutter)
+
+    expected_nondim_vol = alpha * flow_disp / flow_cont
+
+    assert calc_nondim_squeeze_volume(
+        height, width, inlet_width, epsilon, flow_cont, flow_disp,
+        flow_gutter) == pytest.approx(expected_nondim_vol)
+
+
+# -------------------------------------------------------------------------------------
 def calc_alpha(height: float, width: float, inlet_width: float, epsilon: float,
                flow_cont: float, flow_gutter: float) -> float:
     """
@@ -67,6 +114,21 @@ def calc_alpha(height: float, width: float, inlet_width: float, epsilon: float,
 # -------------------------------------------------------------------------------------
 def test_calc_alpha() -> None:
     """ Test calc_alpha() """
+
+    height = 0.5
+    width = 1.0
+    inlet_width = 2 / 3
+    epsilon = 0.
+    flow_cont = 1.
+    flow_gutter = 0.1
+
+    assert calc_alpha(height, width, inlet_width, epsilon, flow_cont,
+                      flow_gutter) == pytest.approx(0.808977)
+
+    inlet_width = 2.
+
+    assert calc_alpha(height, width, inlet_width, epsilon, flow_cont,
+                      flow_gutter) == pytest.approx(3.369487)
 
 
 # -------------------------------------------------------------------------------------
