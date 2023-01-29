@@ -254,3 +254,85 @@ def test_calc_pinch_width() -> None:
 
     assert calc_pinch_width(height, width, epsilon) == expected_pinch_width
     assert calc_pinch_width(height, width, epsilon) == pytest.approx(0.1)
+
+
+# -------------------------------------------------------------------------------------
+def calc_radius(
+    height: float,
+    width: float,
+    inlet_widt: float,
+    flow_cont: float,
+    flow_gutter: float,
+    time: float,
+) -> float:
+    """
+    Calculate the radius (big R) as a function of time
+
+    Arguements:
+    `height`: channel height
+    `width`: channel width
+    `inlet_width`: inlet channel width
+    `flow_cont`: volumetric flow rate of continuous phase
+    `flow_gutter`: volumetric flow rate of gutter
+    `time`: time since begin of squeezing phase
+    """
+
+    # Equation for R is a quadratic equation of the form
+    # a*R^2 + b*R + c = 0
+
+    r_fill = calc_fill_radius(width, inlet_widt)
+
+    # Assign coefficients of quadratic equation
+    coeff_a = 1
+    coeff_b = (PI * height) / 4
+    coeff_c = -1 * (
+        r_fill**2
+        + (coeff_b * r_fill)
+        + (
+            time
+            * (flow_cont / height)
+            * (1 - (flow_gutter / flow_cont))
+            / (1 - (PI / 4))
+        )
+    )
+
+    radius = (1 / 2) * (
+        (-1 * coeff_b) + math.sqrt((coeff_b**2) - 4 * coeff_a * coeff_c)
+    )
+
+    return radius
+
+
+# -------------------------------------------------------------------------------------
+def calc_2r(
+    height: float,
+    width: float,
+    inlet_width: float,
+    epsilon: float,
+    flow_cont: float,
+    flow_gutter: float,
+    time: float,
+) -> float:
+    """
+    Calculate the 2r (minimal distance between interface and junction)
+    as a function of time
+
+    Arguements:
+    `height`: channel height
+    `width`: channel width
+    `inlet_width`: inlet channel width
+    `epsilon`: corner roundness
+    `flow_cont`: volumetric flow rate of continuous phase
+    `flow_gutter`: volumetric flow rate of gutter
+    `time`: time since begin of squeezing phase
+    """
+
+    radius = calc_radius(height, width, inlet_width, flow_cont, flow_gutter, time)
+
+    two_r = (
+        radius
+        - math.sqrt((radius - width) ** 2 + (radius - inlet_width) ** 2)
+        + epsilon
+    )
+
+    return two_r
