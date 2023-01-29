@@ -15,7 +15,7 @@ import plotnine as p9
 
 from utils.filling import calc_nondim_fill_volume
 from utils.formatter_class import CustomHelpFormatter
-from utils.squeezing import calc_alpha, calc_nondim_squeeze_volume
+from utils.squeezing import calc_alpha, calc_nondim_squeeze_volume, calc_2r
 
 
 class Args(NamedTuple):
@@ -56,14 +56,14 @@ def make_fig_2a(color_mapping: dict[str, str]) -> p9.ggplot:
     `color_mapping`: Dictionary mappying hex colors to width ratios
     """
 
-    width = [1.0]
-    heights = map(lambda x: float(x / 100), range(0, 51))
+    widths = [1.0]
+    heights = map(lambda x: float(x / 1000), range(0, 501))
     inlet_widths = [1, 4 / 3, 2, 3]
 
     width_col = []
     height_col = []
     inlet_width_col = []
-    for width, height, inlet_width in itertools.product(width, heights, inlet_widths):
+    for width, height, inlet_width in itertools.product(widths, heights, inlet_widths):
         width_col.append(width)
         height_col.append(height)
         inlet_width_col.append(inlet_width)
@@ -90,7 +90,9 @@ def make_fig_2a(color_mapping: dict[str, str]) -> p9.ggplot:
         )
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
-        + p9.ylim(0, 2)
+        + p9.scale_y_continuous(
+            breaks=[tick / 10 for tick in list(range(0, 22, 2))], limits=[0, 2]
+        )
         + p9.theme_light()
         + p9.labs(x="h/w", y="Dimensionless fill volume", color="w_in / w")
     )
@@ -108,7 +110,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     `color_mapping`: Dictionary mappying hex colors to width ratios
     """
 
-    width = [1.0]
+    widths = [1.0]
     flow_ratio = 0.1
     epsilon = 0.0
     heights = map(lambda x: float(x / 100), range(0, 51))
@@ -117,7 +119,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     width_col = []
     height_col = []
     inlet_width_col = []
-    for width, height, inlet_width in itertools.product(width, heights, inlet_widths):
+    for width, height, inlet_width in itertools.product(widths, heights, inlet_widths):
         width_col.append(width)
         height_col.append(height)
         inlet_width_col.append(inlet_width)
@@ -149,6 +151,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     plot = (
         p9.ggplot(alpha_df, p9.aes("height_over_width", "alpha", color="width_ratio"))
         + p9.geom_line()
+        + p9.scale_y_continuous(breaks=list(range(0, 9, 1)), limits=[0, 8])
         + p9.scale_color_manual(color_mapping)
         + p9.theme_light()
         + p9.labs(x="h/w", y="Squeezing coefficient", color="w_in / w")
@@ -188,6 +191,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         inlet_width_col.append(inlet_width)
         dispersed_flow_col.append(dispersed_flow)
 
+    # Parameters for bubbles
     vol_df = pd.DataFrame()
     vol_df["inlet_width"] = inlet_width_col
     vol_df["dispersed_flow"] = dispersed_flow_col
@@ -204,6 +208,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         lambda row: height_dictionary.get(row.width_ratio), axis=1
     )
 
+    # Parameters for droplets
     liq_liq_df = pd.DataFrame()
     liq_liq_df["dispersed_flow"] = dispersed_flows
     liq_liq_df["width"] = 1.0
@@ -249,6 +254,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
         + p9.ylim(0, 25)
+        + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
         + p9.theme_light()
         + p9.labs(
             x="Flow rate ratio (disp. / cont.)",
@@ -256,6 +262,77 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
             color="w_in / w",
             linetype="Type",
         )
+    )
+
+    return plot
+
+
+# -------------------------------------------------------------------------------------
+def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
+    """
+    Generate figure 6: receding interface during squeezing period
+
+    Arguments:
+    `color_mapping`: Dictionary mappying hex colors to width ratios
+    """
+
+    width = 100 * 10**-6
+    continuous_flow = 3 * 10**-9
+    height = 33 * 10**-6
+    pinch_thresh = height / (height + width)
+
+    inlet_width_ratios = [1 / 3, 1, 3]
+    alpha_vals = list(map(lambda x: float(x / 100), range(0, 1001)))
+
+    inlet_width_col = []
+    alpha_col = []
+    for inlet_width_ratio, alpha_val in itertools.product(
+        inlet_width_ratios, alpha_vals
+    ):
+        inlet_width_col.append(inlet_width_ratio * width)
+        alpha_col.append(alpha_val)
+
+    df = pd.DataFrame()
+    df["alpha"] = alpha_col
+    df["inlet_width"] = inlet_width_col
+    df["width"] = width
+    df["height"] = height
+    df["continuous_flow"] = continuous_flow
+
+    df["time"] = df["alpha"] / (
+        df["continuous_flow"] / (df["height"] * df["width"] ** 2)
+    )
+    df["epsilon"] = 0.1 * df["width"]
+    df["width_ratio"] = round(df["inlet_width"] / df["width"], 2)
+    df["width_ratio"] = df["width_ratio"].astype(str)
+    df["gutter_flow"] = 0.1 * df["continuous_flow"]
+    df["2r"] = df.apply(
+        lambda row: calc_2r(
+            row.height,
+            row.width,
+            row.inlet_width,
+            row.epsilon,
+            row.continuous_flow,
+            row.gutter_flow,
+            row.time,
+        ),
+        axis=1,
+    )
+    df["2r_w"] = df["2r"] / df["width"]
+
+    plot = (
+        p9.ggplot(df, p9.aes(x="alpha", y="2r_w", color="width_ratio"))
+        + p9.geom_hline(
+            p9.aes(yintercept=pinch_thresh), linetype="dashed", color="gray"
+        )
+        + p9.geom_line()
+        + p9.scale_color_manual(color_mapping)
+        + p9.scale_y_continuous(
+            breaks=[tick / 10 for tick in list(range(0, 14, 2))], limits=[0, 1.2]
+        )
+        + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
+        + p9.theme_light()
+        + p9.labs(x="(q_c/(h*w^2))*t", y="2r/w", color="w_in / w")
     )
 
     return plot
@@ -283,10 +360,12 @@ def main() -> None:
     fig_2a = make_fig_2a(color_mapping)
     fig_2b = make_fig_2b(color_mapping)
     fig_3 = make_fig_3(color_mapping)
+    fig_6 = make_fig_6(color_mapping)
 
     fig_2a.save(os.path.join(out_dir, "fig_2a.png"))
     fig_2b.save(os.path.join(out_dir, "fig_2b.png"))
     fig_3.save(os.path.join(out_dir, "fig_3.png"))
+    fig_6.save(os.path.join(out_dir, "fig_6.png"))
 
 
 # -------------------------------------------------------------------------------------
