@@ -1,5 +1,3 @@
-conda_env/*
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -129,6 +127,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+conda_env/
 
 # Spyder project settings
 .spyderproject
@@ -153,3 +152,8 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# VS Code
+settings.json
+*.code-workspace
+.devcontainer
