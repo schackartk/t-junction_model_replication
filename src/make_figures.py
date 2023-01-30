@@ -357,15 +357,19 @@ def main() -> None:
         "3.0": "#1f4f16",
     }
 
+    print("Generating figures...")
     fig_2a = make_fig_2a(color_mapping)
     fig_2b = make_fig_2b(color_mapping)
     fig_3 = make_fig_3(color_mapping)
     fig_6 = make_fig_6(color_mapping)
 
+    print("Saving figures...")
     fig_2a.save(os.path.join(out_dir, "fig_2a.png"))
     fig_2b.save(os.path.join(out_dir, "fig_2b.png"))
     fig_3.save(os.path.join(out_dir, "fig_3.png"))
     fig_6.save(os.path.join(out_dir, "fig_6.png"))
+
+    print(f'Done. See figures in "{out_dir}".')
 
 
 # -------------------------------------------------------------------------------------
