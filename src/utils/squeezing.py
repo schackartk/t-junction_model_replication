@@ -304,6 +304,33 @@ def calc_radius(
 
 
 # -------------------------------------------------------------------------------------
+def test_calc_radius() -> None:
+    """Test calc_radius()"""
+
+    height = 33 * 10**-6
+    width = 100 * 10**-6
+    inlet_width = width
+    continuous_flow = 3 * 10**-9
+    gutter_flow = 0.1 * continuous_flow
+
+    fill_radius = calc_fill_radius(width, inlet_width)
+
+    assert (
+        calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0)
+        == fill_radius
+    )
+
+    assert (
+        calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0.01)
+        > fill_radius
+    )
+
+    assert calc_radius(
+        height, width, inlet_width, continuous_flow, gutter_flow, 0.05
+    ) == pytest.approx(0.004354597078)
+
+
+# -------------------------------------------------------------------------------------
 def calc_2r(
     height: float,
     width: float,
@@ -336,3 +363,32 @@ def calc_2r(
     )
 
     return two_r
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_2r() -> None:
+    """Test calc_2r()"""
+
+    height = 33 * 10**-6
+    width = 100 * 10**-6
+    inlet_width = width
+    continuous_flow = 3 * 10**-9
+    gutter_flow = 0.1 * continuous_flow
+    epsilon = 0.1 * width
+
+    fill_radius = calc_fill_radius(width, inlet_width)
+
+    assert calc_2r(
+        height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0
+    ) == pytest.approx(fill_radius + epsilon)
+
+    assert (
+        calc_2r(
+            height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0.0001
+        )
+        < fill_radius + epsilon
+    )
+
+    assert calc_2r(
+        height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0.00001
+    ) == pytest.approx(0.0001034660)
