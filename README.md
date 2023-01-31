@@ -28,7 +28,7 @@ To create a conda environment using the provided `environment.yml`, the followin
 $ conda env create -f environment.yml -p ./env
 ```
 
-This creates a conda environment in the root of the repository, which is activate with:
+This creates a conda environment in the root of the repository, which is activated with:
 
 ```sh
 $ conda activate ./env
@@ -66,6 +66,6 @@ By default all figures are output to `figures/`. However, this can be changed us
 
 # Authorship
 
-[Kenneth E. Schackart III](schackartk1@gmail.com): Research Software Consulting, Tucson Arizona, United States of America
+Kenneth E. Schackart III: Research Software Consulting, Tucson Arizona, United States of America
 
-[Kattika Kaarj](): Suranaree University of Technology, Nakhon Ratchasima, Thailand 
+Kattika Kaarj: Suranaree University of Technology, Nakhon Ratchasima, Thailand 
