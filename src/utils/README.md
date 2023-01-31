@@ -7,6 +7,7 @@ This directory contains modules used to mode T-Junction flow. The modules are di
 ├── __init__.py            # Allow modules to be imported
 ├── center.sh              # Output formatting for Make targets
 ├── filling.py             # Filling phase module
+├── formatter_class.pyb    # Argparse help formatter
 └── squeezing.py           # Squeezing phase module
 ```
 # Files
@@ -28,6 +29,10 @@ It is used for formatting output of the Make targets.
 ## `filling.py`
 
 Module that contains functions that model the filling phase of droplet/bubble formation.
+
+## `formatter_class.py`
+
+Custom Python argparse help formatter class.
 
 ## `squeezing.py`
 
