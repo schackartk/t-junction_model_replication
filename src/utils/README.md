@@ -3,6 +3,7 @@
 This directory contains modules used to mode T-Junction flow. The modules are divided into those used during the filling and squeezing phases.
 
 ```sh
+.
 ├── __init__.py            # Allow modules to be imported
 ├── center.sh              # Output formatting for Make targets
 ├── filling.py             # Filling phase module
