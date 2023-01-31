@@ -8,14 +8,14 @@ Purpose: Generate figures from paper
 import argparse
 import itertools
 import os
-from typing import NamedTuple, Callable
+from typing import Callable, NamedTuple
 
 import pandas as pd
 import plotnine as p9
 
-from utils.filling import calc_nondim_fill_volume, calc_incorrect_nondim_fill_volume
+from utils.filling import calc_incorrect_nondim_fill_volume, calc_nondim_fill_volume
 from utils.formatter_class import CustomHelpFormatter
-from utils.squeezing import calc_alpha, calc_nondim_squeeze_volume, calc_2r
+from utils.squeezing import calc_2r, calc_alpha, calc_nondim_squeeze_volume
 
 
 class Args(NamedTuple):
