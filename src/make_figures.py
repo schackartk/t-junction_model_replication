@@ -54,6 +54,9 @@ def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9
 
     Arguments:
     `color_mapping`: Dictionary mappying hex colors to width ratios
+    `filling_function`: Function to use for calculating nondimensionalized
+    filling volume (either utils.filling.calc_nondim_fill_volume
+    or utils.filling.calc_incorrect_nondim_fill_volume)
     """
 
     widths = [1.0]
