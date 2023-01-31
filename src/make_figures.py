@@ -8,12 +8,12 @@ Purpose: Generate figures from paper
 import argparse
 import itertools
 import os
-from typing import NamedTuple
+from typing import NamedTuple, Callable
 
 import pandas as pd
 import plotnine as p9
 
-from utils.filling import calc_nondim_fill_volume
+from utils.filling import calc_nondim_fill_volume, calc_incorrect_nondim_fill_volume
 from utils.formatter_class import CustomHelpFormatter
 from utils.squeezing import calc_alpha, calc_nondim_squeeze_volume, calc_2r
 
@@ -47,7 +47,7 @@ def get_args() -> Args:
 
 
 # -------------------------------------------------------------------------------------
-def make_fig_2a(color_mapping: dict[str, str]) -> p9.ggplot:
+def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9.ggplot:
     """
     Generate figure 2a: nondimensionalized volume during the filling phase
     plotted against channel height/width for 5 inlet width/width ratios
@@ -80,7 +80,7 @@ def make_fig_2a(color_mapping: dict[str, str]) -> p9.ggplot:
     filling_df["width_ratio"] = filling_df["width_ratio"].astype(str)
 
     filling_df["nondim_vol"] = filling_df.apply(
-        lambda row: calc_nondim_fill_volume(row.height, row.width, row.inlet_width),
+        lambda row: filling_function(row.height, row.width, row.inlet_width),
         axis=1,
     )
 
@@ -358,13 +358,15 @@ def main() -> None:
     }
 
     print("Generating figures...")
-    fig_2a = make_fig_2a(color_mapping)
+    fig_2a = make_fig_2a(color_mapping, calc_nondim_fill_volume)
+    fig_2a_incorrect = make_fig_2a(color_mapping, calc_incorrect_nondim_fill_volume)
     fig_2b = make_fig_2b(color_mapping)
     fig_3 = make_fig_3(color_mapping)
     fig_6 = make_fig_6(color_mapping)
 
     print("Saving figures...")
     fig_2a.save(os.path.join(out_dir, "fig_2a.png"))
+    fig_2a_incorrect.save(os.path.join(out_dir, "fig_2a_incorrect.png"))
     fig_2b.save(os.path.join(out_dir, "fig_2b.png"))
     fig_3.save(os.path.join(out_dir, "fig_3.png"))
     fig_6.save(os.path.join(out_dir, "fig_6.png"))
