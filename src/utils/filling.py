@@ -400,6 +400,7 @@ def test_calc_incorrect_nondim_fill_volume() -> None:
     ) != calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
 
     # Incorrect function gives volume greater than should to be
-    assert calc_nondim_fill_volume(
-        height, width, width * 2.0
-    ) < calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
+    correct = calc_nondim_fill_volume(height, width, width * 2.0)
+    incorrect = calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
+    assert correct is not None and incorrect is not None  # Must check before using "<"
+    assert correct < incorrect
