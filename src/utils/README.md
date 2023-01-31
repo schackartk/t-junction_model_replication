@@ -30,6 +30,8 @@ It is used for formatting output of the Make targets.
 
 Module that contains functions that model the filling phase of droplet/bubble formation.
 
+When using the functions in this module, use consistent units to ensure consistent and accurate outputs. We recommend using only SI units (*e.g.* m, L; not µm, mL, *etc.*) to avoid inconsistencies.
+
 ## `formatter_class.py`
 
 Custom Python argparse help formatter class.
@@ -37,3 +39,5 @@ Custom Python argparse help formatter class.
 ## `squeezing.py`
 
 Module that contains functions that model the squeezing phase of droplet/bubble formation.
+
+When using the functions in this module, use consistent units to ensure consistent and accurate outputs. We recommend using only SI units (*e.g.* m, L; not µm, mL, *etc.*) to avoid inconsistencies.
