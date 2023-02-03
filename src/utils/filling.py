@@ -386,6 +386,11 @@ def test_calc_incorrect_nondim_fill_volume() -> None:
     height = 10.0
     width = 20.0
 
+    # returns None if any arguments are zero
+    assert calc_incorrect_nondim_fill_volume(0.0, 1.0, 1.0) is None
+    assert calc_incorrect_nondim_fill_volume(1.0, 0.0, 1.0) is None
+    assert calc_incorrect_nondim_fill_volume(1.0, 1.0, 0.0) is None
+
     # Functions are same if inlet_width <= width
     assert calc_nondim_fill_volume(
         height, width, width - 2.0
