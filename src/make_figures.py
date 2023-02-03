@@ -116,7 +116,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     widths = [1.0]
     flow_ratio = 0.1
     epsilon = 0.0
-    heights = map(lambda x: float(x / 100), range(0, 51))
+    heights = map(lambda x: float(x / 1000), range(0, 501))
     inlet_widths = [1 / 3, 2 / 3, 1, 4 / 3, 2, 3]
 
     width_col = []
@@ -177,7 +177,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
     gutter_flow = continuous_flow * 0.1
     width = 1.0
     inlet_widths = [1 / 3, 2 / 3, 1, 4 / 3, 3]
-    dispersed_flows = list(map(lambda x: float(x / 10), range(0, 101)))
+    dispersed_flows = list(map(lambda x: float(x / 100), range(0, 1001)))
 
     # h/w is assigned based on width ratio
     height_dictionary = {
