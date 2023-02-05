@@ -8,12 +8,14 @@ The following is a brief overview of the contents of this respository:
 
 ```sh
 .
+├── LICENSE         # License file
 ├── Makefile        # Make commands
-├── article/        # Article contents
+├── article/        # Article (LaTeX) contents
 ├── environment.yml # Conda environment description
 ├── figures/        # Replicated figures
 ├── setup.cfg       # Code check configurations
-└── src/            # Code
+├── src/            # Code
+└── tests           # Integration tests
 ```
 
 # Setup
@@ -53,6 +55,8 @@ The full test suite can be run with the following command:
 ```
 $ make test
 ```
+
+All tests have passed during development, any failing tests may be indicative of issues with environment/packages.
 
 # Replicating results
 
