@@ -335,7 +335,7 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
         )
         + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
         + p9.theme_light()
-        + p9.labs(x="(q_c/(h*w^2))*t", y="2r/w", color="w_in / w")
+        + p9.labs(x="Dimensionless time", y="2r/w", color="w_in / w")
     )
 
     return plot
