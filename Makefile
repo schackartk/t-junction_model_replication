@@ -4,16 +4,17 @@ test:
 	@src/utils/center.sh "Running Pytest"
 	coverage run -m pytest -v \
 	src/utils/*.py \
-	src/*.py
+	src/*.py \
+	tests/
 	@echo ""
 	@src/utils/center.sh "Assessing Test Coverage"
-	coverage report --skip-empty --omit src/make_figures.py,src/utils/formatter_class.py
+	coverage report --skip-empty --omit src/make_figures.py,src/utils/formatter_class.py,tests/*.py
 	@src/utils/center.sh "Running Pylint"
-	pylint --rcfile setup.cfg --exit-zero src/utils/*.py
+	pylint --rcfile setup.cfg --exit-zero src/utils/*.py src/*.py tests/*.py
 	@src/utils/center.sh "Running Flake8"
-	flake8 --exit-zero src/utils/*.py src/*.py
+	flake8 --exit-zero src/utils/*.py src/*.py tests/*.py
 	@echo ""
 	@src/utils/center.sh "Running MyPy"
-	mypy src/utils/*.py src/*.py
+	mypy src/utils/*.py src/*.py tests/*.py
 	@echo ""
 	@src/utils/center.sh "Done, see above for test results!"
