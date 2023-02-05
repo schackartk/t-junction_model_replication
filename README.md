@@ -1,6 +1,6 @@
 # [Re] Predictive model for the size of bubbles and droplets created in microfluidic T-junctions
 
-This repository contains the code used to replicate the mathematical modelling figures found in van Steijn V., *et al.* 2010 for submission to ReScienceC
+This repository contains the code used to replicate the mathematical modelling results found in van Steijn V., *et al.* 2010 for submission to ReScienceC
 
 # Repository Structure
 
@@ -8,14 +8,15 @@ The following is a brief overview of the contents of this respository:
 
 ```sh
 .
-├── LICENSE         # License file
-├── Makefile        # Make commands
-├── article/        # Article (LaTeX) contents
-├── environment.yml # Conda environment description
-├── figures/        # Replicated figures
-├── setup.cfg       # Code check configurations
-├── src/            # Code
-└── tests           # Integration tests
+├── LICENSE          # License file
+├── Makefile         # Make commands
+├── article/         # Article (LaTeX) contents
+├── environment.yml  # Conda environment description
+├── figures/         # Replicated figures
+├── requirements.txt # pip requirements
+├── setup.cfg        # Code check configurations
+├── src/             # Code
+└── tests            # Integration tests
 ```
 
 # Setup
