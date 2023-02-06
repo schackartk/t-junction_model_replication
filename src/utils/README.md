@@ -21,6 +21,7 @@ This file simply allows the Python modules to be imported by other modules/scrip
 Shell script that prints a string fenced by "=" to the edges of the terminal. For example:
 
 ```sh
+$ ./center.sh "Running Pytest"
 ===================== Running Pytest =====================
 ```
 
