@@ -1,6 +1,6 @@
 # T-Junction Code
 
-This directory contains code  used for replicating the figures modelling T-Junction flow.
+This directory contains code used for replicating the figures modelling the formation of droplets and bubbles in microfuilic T-junctions.
 
 ```sh
 .
