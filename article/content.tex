@@ -1,0 +1,553 @@
+Microfluidic T-junctions are used for creating dispersed bubbles or droplets
+of a consistent volume. Such platforms have been used for a variety of applications,
+such as [...], [...], and [...]. It is often critical that the volume of the
+bubbles or droplets are consistent and predictable. A mathematical model was
+previously developed for predicting the volume of bubbles and droplets formed in
+microfluidic T-junctions, however, their code was not made readily available.
+In this work, we develop Python modules that implement the mathematical model and 
+replicate the figures in the original work. While the model
+could be replicated, some results shown in the original work were flawed while others
+could not be replicated exactly.
+
+\section{Introduction}
+
+\subsection{Applications of microfluidic T-junctions}
+
+\subsection{Importance of droplet/bubble size prediction}
+
+\subsection{Models for size prediction}
+
+\subsection{van Steijn Model overview}
+
+The model presented in the original work by van Steijn \emph{et al.,}\supercite{van_steijn_predictive_2010}
+divides the droplet formation process into two phases: \emph{filling} and \emph{squeezing}. The final model
+adds the contributions from the two stages to arrive at the droplet/bubble volume.
+This is summarized as the dimensionless volume in the following equation:
+
+\begin{equation}
+  \frac{V}{hw^2} = \frac{V_{fill}}{hw^{2}}+\alpha\frac{q_{d}}{q_{c}}
+\end{equation}
+
+\subsubsection{Filling phase}
+
+The filling phase begins as the dispersed fluid enters the main
+channel from the inlet channel. This phase continues until the emerging
+dispersed fluid reaches the far side of the main channel, at which time
+the sqeeuzing phase begins.
+
+The equation describing the filling phase defines the dimensionless fill volume as
+Equation \eqref{nondim_fill_vol}:
+
+\begin{equation}
+  \frac{V_{fill}}{hw^{2}} = 
+    \begin{cases}
+      \frac{3\pi}{8} - \frac{\pi}{2} \left(1 - \frac{\pi}{4}\right) \frac{h}{w} & \quad \text{for } w_{in} \leq w\\
+      \left(\frac{\pi}{4} - \frac{1}{2} \arcsin\left(1-\frac{w}{w_{in}}\right)\right) \left(\frac{w_{in}}{w}\right)^2 + \\
+      -\frac{1}{2} \left(\frac{w_{in}}{w} - 1\right) \left(2\frac{w_{in}}{w} - 1\right)^\frac{1}{2} +
+      \frac{\pi}{8} + \\
+      -\frac{1}{2} \left(1 - \frac{\pi}{4}\right) \left(\left(\frac{\pi}{2} - \arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} + \frac{\pi}{2}\right)\frac{h}{w}
+      & \quad \text{for } w_{in} > w
+    \end{cases}\label{nondim_fill_vol}
+  \end{equation}
+
+This equation is derived strictly based on geometries that are present when the
+emerging dispersed phase reaches the far wall of the main channel.
+
+\subsubsection{Squeezing phase}
+
+Once the dispersed phase reaches the far wall of the main channel, the squeezing
+phase begins. The contribution to the total dimensionless volume during the
+squeezing phase is described by the following equation:
+
+\begin{equation}
+  \frac{V_{squeeze}}{hw^2} = {\alpha}\frac{q_d}{q_c}\label{nondim_squeeze_vol}
+\end{equation}
+
+The squeezing coefficient ($\alpha$) is described by Equation \eqref{alpha}:
+
+\begin{equation}
+  \alpha = \left(1 - \frac{\pi}{4}\right)
+  \left(1 - \frac{q_{gutter}}{q_{c}}\right)^{-1}
+  \left(\left(\frac{R_{pinch}}{w}\right)^2 -
+  \left(\frac{R_{fill}}{w}\right)^2 +
+  \frac{\pi}{4}\left(\frac{R_{pinch}}{w} -
+  \frac{R_{fill}}{w}\right)\frac{h}{w}\right)\label{alpha}
+\end{equation}
+
+Where the radius denoted $R_{fill}$ is determined by:
+
+\begin{equation}
+  R_{fill} = \max\left(w,w_{in}\right)\label{R_fill}
+\end{equation}
+
+And the radius denoted $R_{pinch}$ is described by:
+
+\begin{equation}
+  R_{pinch} = w + w_{in} - \left(\frac{hw}{h+w} - \varepsilon\right) +
+  \left(2\left(w_{in} -
+    \left(\frac{hw}{h+w} -
+    \varepsilon\right)\right)\left(w -
+    \left(\frac{hw}{h+w} - \varepsilon\right)\right)\right)^\frac{1}{2}\label{R_pinch}
+\end{equation}
+
+
+The original authors determined experimentally that $\frac{q_{gutter}}{q_c}=0.1$,
+so this relationship is used during all calculations in the original work.
+
+\section{Methods}
+
+All code was written in Python v3.11.0\supercite{pypi_python_nodate} and using the
+conda package manager v22.9.0\supercite{noauthor_conda_2017}. Code was developed using
+Windows Subsystem for Linux 2 (WSL2)\supercite{microsoft_windows_nodate} connected to an
+Ubuntu v20.04\supercite{canonical_ltd_ubuntu_2020} kernel.
+
+\subsection{Python modules}
+
+\subsubsection{Filling phase}
+
+While dimensionless fill volume could be calculated directly using equation \eqref{nondim_fill_vol},
+we took a more verbose approach in developing the filling module. This is to aid in readability and
+interpretability of the functions defined in the module.
+
+We begin with the provided definition of fill volume ($V_{fill}$) as the gross volume
+($V_{gross}$) minus the total gutter volume ($2V_{gutter}$).
+
+$V_{gross}$ is calculated as the cross-sectional area of the emerging droplet ($A_{droplet}$)
+at the midplane extruded by the channel height ($h$).
+
+$V_{gutter}$ is calculated as cross sectional area of the gutter ($A_{gutter}$) extruded along
+the perimeter of the emerging droplet ($l_{gutter}$).
+
+This is summarized as:
+
+\begin{equation}
+  V_{fill} = V_{gross} - 2*V_{gutter} = hA_{droplet} - 2A_{gutter}l_{gutter} \label{fill_vol}
+\end{equation}
+
+The equation for $A_{droplet}$ and $l_{gutter}$ are dependent on the the channel width and the inlet width. If inlet width $\leq$
+channel width, then
+$$A_{droplet} = \frac{1}{4}{\pi}w^2 + \frac{1}{2}{\pi}\left(\frac{w}{2}\right)^2$$
+$$l_{gutter} = \frac{1}{4}2{\pi}w + \frac{1}{2}2{\pi}\frac{w}{2}$$
+If inlet width is greater than channel width,
+$$A_{droplet} = \frac{\pi}{2}\left(\frac{w}{2}\right)^2 +
+\frac{\pi}{4}w_{in}^2 -
+w_{in}^2\frac{1}{2}\arcsin{\left(\frac{w_{in}-w}{w_{in}}\right)} -
+\frac{1}{2}\left(w_{in}-w\right)\sqrt{w_{in}^2 - \left(w_{in}-w\right)^2}$$
+$$l_{gutter} = \frac{w\pi}{2}+w_{in}\left(\frac{\pi}{2}-\arcsin\left(1-\frac{w}{w_{in}}\right)\right)$$
+
+\par
+The equation for the cross-sectional area of the gutter is 
+$$A_{gutter} = \frac{h}{2}^2-\frac{\pi}{4}\left(\frac{h}{2}\right)^2$$
+\par
+
+The module calculates the fill volume by individually calculating the variables in equation
+\eqref{fill_vol} using the described relationships.
+This is then divided by $hw^2$ to make it non-dimensionalized.
+
+To ensure that the verbose geometric implementation matches the simplified equation \eqref{nondim_fill_vol}, 
+unit tests compare the values obtained using each version.
+
+\subsubsection{Squeezing phase}
+The non-dimensionalized volume during the squeezing period is given by equation \eqref{nondim_squeeze_vol}, with
+equations for the variables defined in equations \eqref{alpha}, \eqref{R_fill}, and \eqref{R_pinch}.
+
+Functions for calculating each of the intermediate variables and non-dimensionalized squeeze volume
+were developed, each with accompanying unit tests.
+
+\subsection{Replication of figures}
+
+To fully replicate the results in the original work, the figures showing model outputs were
+replicated using the modules that were developed. A Python script imports the necessary
+functions from the squeezing and filling modules and uses Pandas v1.5.1\supercite{team_pandas_2020}
+and plotnine v0.10.1\supercite{kibirige_plotnine_2022} to create the figures.
+This section will describe how each figure was replicated.
+
+For convenience in discussing the figures of the original work, we will prepend figure names
+with “O”. For example, Figure 2 from the original work will be referred to as Fig. O2,
+to distinguish from the figures in this manuscript.
+
+Figure O2 has two panels, which are unlabeled in the original work. We have labeled these as O2a
+(left) and O2b (right) for convenience.
+
+\subsubsection{Figure O2a}
+
+Figure O2a shows the non-dimensionalized volume during the filling phase ($\frac{V_fill}{hw^2}$)
+against the ratio of channel height over channel width ($\frac{h}{w}$) for four width ratios 
+($\frac{w_{in}}{w}$).
+To replicate this figure, a series of 1000 points were generated spanning $\frac{h}{w} \in [0,0.5]$
+for each $\frac{w_{in}}{w}$, arbitrarily setting $w=1$, and varying $h$ and
+$w_{in}$ to obtain the necessary ratios.
+
+The dimensionless fill volume was then calculated for each point using the module that was
+developed. These series of points were then plotted, the axes were scaled identically to the
+original work, and a color mapping was applied to the width ratios $\frac{w_{in}}{w}$.
+
+\subsubsection{Figure O2b}
+
+Figure O2b shows the squeezing coefficient ($\alpha$) against the same range of $\frac{h}{w}$
+values as Figure O2a. However, six width ratios ($\frac{w_{in}}{w}$) are plotted.
+
+This figure was again replicated using 1000 points per width ratio. Channel width ($w$) was
+held constant while $h$ and $w_{in}$ were varied. As in the original work the corner roundness
+$\varepsilon=0$. The flow rate of the continuous phase was set as $q_c=1$, and the flow rate of the
+gutter was $q_{gutter}=0.1*q_c$ such that $\frac{q_{gutter}}{q_c}=0.1$, as described in the original
+work.
+
+The squeezing coefficient was calculated based on these values using the function in the
+squeezing module, and plotted using the same axis scales as the original work.
+
+\subsubsection{Figure O3}
+
+Figure O3 shows the dimensionless volume of droplets and bubbles against the flow rate ratio
+of the dispersed phase over the continuous phase ($\frac{q_d}{q_c}$). Six series are plotted,
+five are air bubbles produced using five width ratios ($\frac{w_{in}}{w}$) and variying heigth over width
+values ($\frac{h}{w}$); the final series shows liquid-liquid droplets with $\frac{w_{in}}{w} = 1$ and
+$\frac{h}{w}=0.48$. For air bubbles $\varepsilon=0.1w$ and for liquid-liquid droplet $\varepsilon=0.01w$.
+
+For replication, continuous flow rate ($q_c$) and channel width ($w$) were both set equal two $1$.
+Channel height ($h$), inlet width ($w_{in}$), and dispersed phase flow rate ($q_d$) were all varied To
+achieve the necessary ratios. Corner roundness ($\varepsilon$) was computed based on channel width using the
+relationship described above. 1000 points were generated for each of the six series.
+
+The dimensionless volume of the squeezing phase and filling phase were calculated using their
+respective modules, and the sum of the two was computed. This total dimensionless volume was plotted
+in the same manner as in the original work.
+
+\subsubsection{Figure O6}
+
+Figure O6 shows the shortest distance between the receding interface from the channel wall ($2r$) normalized
+by channel width ($2r/w$) against time ($t$) multiplied by $\frac{q_c}{hw^2}$. Where continuous phase
+flow rate, $q_c = 3{\mu}L\;\mathrm{min}^{-1}$, height $h=33{\mu}m$, width $w=100{\mu}m$, and corner roundness
+$\varepsilon=0.1w$. Three series are shown, corresponding to various width ratios ($\frac{w_{in}}{w}$)
+Additionally, a horizontal line, $\frac{2r_{pinch}}{w}=\frac{h}{h+w}$ is added corresponding to
+their experimentally determined threshold at which pinch-off of the droplet occurs
+
+While the independent axis ($\frac{q_c}{hw^2}t$) can be generated using the provided geometries, and varying
+time to get values in the required range (\emph{i.e.,} $\frac{q_c}{hw^2}t \in [0,10]$), the dependent axis,
+$2r/w$ must computed as a function of $\frac{q_c}{hw^2}t$. Since $\frac{q_c}{hw^2}$ and $w$ are all constant,
+this amounts to needing $2r$ as a function of $t$. Although no such equation
+is explicitly provided in the original work, it can be inferred.
+
+To do so, the relationship between $2r$ and $R$, which is given in the original work, will be used:
+
+\begin{equation}
+  2r - \varepsilon = R - \sqrt{\left(R - w\right)^2 + \left(R - w_{in}\right)^2}
+\end{equation}
+
+But first, an equation must be found that gives $R$ as a function of time. The equation
+relating $R$ and $t$ is given by:
+
+\begin{equation}
+  \left[2\frac{R}{w} + \frac{\pi}{4}\frac{h}{w}\right]
+  \frac{\mathrm{d}}{\mathrm{d}t}\left(\frac{R}{w}\right) = 
+  \frac{q_c}{hw^2} \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)
+\end{equation}
+
+Multiplying both sides by $w$ and integrating with respect to $\mathrm{d}t$:
+
+$$
+  \int_{0}^t{\left[2R + \frac{h\pi}{4}\right]
+  \frac{\mathrm{d}R}{\mathrm{d}t}} \mathrm{d}t = 
+  \int_{0}^t{\frac{q_c}{hw} \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)} \mathrm{d}t
+$$
+
+Evaluating the integrals:
+
+$$ 
+  \left. R^2 + \frac{h\pi}{4}R \right|_{t=0}^{t}=
+  \left. \frac{q_c}{hw}
+  \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)t \right|_{t=0}^{t}
+$$
+
+Where $R$ is a function of time \emph{i.e.,} $R=R\left(t\right)$ and since
+$t$ is taken as the time since transition from filling to squeezing,
+$\left. R\left(t\right)\right|_{t=0} = R_{fill}$. Evaluating yields:
+
+$$
+  R^2 - R_{fill}^2 + \frac{h\pi}{4}\left(R-R_{fill}\right) = 
+  \frac{q_c}{hw}
+  \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)t
+$$
+
+Setting equal to zero and rearranging:
+
+$$
+  R^2 + \frac{h\pi}{4}R -
+  R_{fill}^2 - \frac{h\pi}{4}R_{fill} -
+  \frac{q_c}{hw}
+  \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)t = 0
+$$
+
+$R$ can be solved for using the quadratic equation to yield:
+
+\begin{equation}
+  R = \frac{-\frac{h\pi}{4} \pm 
+  \sqrt{\left(\frac{h\pi}{4}\right)^2 +
+  4\left(R_{fill}^2 + \frac{h\pi}{4}R_{fill} +
+  \frac{q_c}{hw}
+  \left(1-\frac{\pi}{4}\right)^{-1}
+  \left(1-\frac{q_{gutter}}{q_c}\right)t\right)}}{2}
+\end{equation}
+
+Therefore $R$ can be evaluated as a function of time, and $2r$ can thus be calculated as:
+
+\begin{equation}
+  2r = R - \sqrt{\left(R - w\right)^2 + \left(R - w_{in}\right)^2} + \varepsilon
+\end{equation}
+
+Functions for both $R$ as a function of time, and $2r$ were added
+to the squeezing module.
+
+For replication of Figure O6, the provided geometries for $w$, $h$, and $q_c$ were used. 1000
+point for each inlet width ratio were generated spanning $\frac{q_c}{hw^2}t \in [0,10]$ by varying 
+$w_{in}$. Corner roundness ($\varepsilon$) was calculated based on $w$ as described. $2r$ was
+computed using the squeezing module and divided by $w$ for plotting. As in Figure O6, linetype
+was mapped to dispersed fluid type (liquid droplets vs. gas bubbles).
+
+\subsection{Code quality}
+
+To maintain quality of the code that was developed, several precautions were taken.
+
+As previously mentioned, the functions developed in the filling and squeezing modules
+have associated unit tests. For the filling module, unit tests ensure that the verbose
+geometric calculations match the simplified equations in the original work.
+Pytest v7.2.0\supercite{krekel_pytest_2004} testing framework was used for all unit tests.
+Code coverage of the tests is assessed using coveragepy v7.1.0\supercite{batchelder_coveragepy_nodate}.
+Additionally, an integration test was written for the Python script that generates the
+replicates figures, enusring that it can be run and generate figures as output.
+
+Black v23.1.0\supercite{langa_black_2018} was used to format all Python files.
+
+Several static code checks were employed to automatically assess code quality.
+Pylint v2.15.5\supercite{thenault_pylint_2001} and
+Flake8 v5.0.4\supercite{ziade_flake8_2011} were used for static code checking
+and linting, which adhere to PEP8\supercite{van_rossum_pep_2001} standards. Type annotations were employed
+in all Python code, and mypy v0.990\supercite{lehtosalo_mypy_2012} was used for
+static type checking.
+
+A Make (v4.2.1\supercite{feldman_gnu_1988}) target was added to perform automatic execution of all unit tests and static
+code checks with a single command.
+
+\section{Results}
+
+\subsection{Python modules}
+
+Two Python modules were developed capturing the model presented in the original work.
+
+The filling module consists of 8 functions and 8 unit tests. The squeezing module consists
+of 8 functions and 7 unit tests. Both modules have 100\% test coverage as evaluated by
+coveragepy. All code passes static checking by Pylint, Flake8, and mypy.
+
+\subsection{Replication of figures}
+
+All figures showing modeling results in the original work were replicated. 
+
+\subsubsection{Figure O2a}
+
+The figure generated using our modules (Figure \ref{fig2a}) is similar to
+Figure O2a in the original work. However, for $\frac{w_{in}}{w}>1$, the
+lines have a markedly more negative slope than those in Figure O2a.
+
+Interestingly however, a plot exactly matching Figure O2a could be achieved
+(Figure \ref{fig2a_bad}). To do so,
+a separate function was written to calculate the dimensionless fill volume. In this function,
+the volume is not calculated using geometry, but instead used the equation in the original work,
+but neglecting a pair of parentheses.
+
+The portion of equation \eqref{nondim_fill_vol} that was modified is as follows. The equation
+presented in the original work contains:
+
+$$
+\left(\left(\frac{\pi}{2} -
+\arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} +
+\frac{\pi}{2}\right)\frac{h}{w}
+$$
+
+The rest of the equation was unmodified, however, the above portion was replaced with:
+
+$$
+\left(\frac{\pi}{2} -
+\arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w} +
+\frac{\pi}{2}\right)\frac{h}{w}
+$$
+
+Which can be simplified to:
+
+$$
+\left(\pi -
+\arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w}
+\right)\frac{h}{w}
+$$
+
+This is not equivalent to the unmodified version, \emph{i.e.,}:
+
+$$
+\left(\pi -
+\arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w}
+\right)\frac{h}{w}
+\neq
+\left(\left(\frac{\pi}{2} -
+\arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} +
+\frac{\pi}{2}\right)\frac{h}{w}
+$$
+
+A unit test was also written which asserts that for several $\frac{w_{in}}{w}>1$, the 
+calculated dimensionless fill volume is not equal using the two different functions.
+The unit test also asserts that for $\frac{w_{in}}{w}=1$, the two functions return
+the same value.
+
+\begin{figure}[ht]
+  \centering
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{../figures/fig_2a.png}
+    \caption{}
+    \label{fig2a}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.4\linewidth}
+    \includegraphics[width=\linewidth]{../figures/fig_2a_incorrect.png}
+    \caption{}
+    \label{fig2a_bad}
+  \end{subfigure}
+  \caption{Dimensionless fill volume, $\frac{V_{fill}}{hw^2}$ against $\frac{h}{w}$
+  for four width ratios using a) the the correct model, and b) an
+  incorrect equation to exactly replicate Figure O2a.}
+\end{figure}
+
+\subsubsection{Figure O2b}
+
+The plot of squeezing coefficient (Figure \ref{fig2b}) exactly replicates Figure O2b.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../figures/fig_2b.png}
+  \caption{Squeezing coefficient, $\alpha$ against height / channel width
+  for six width ratios. Replicaiton of Figure O2b.}
+  \label{fig2b}
+\end{figure}
+
+\subsubsection{Figure O3}
+
+The figure of total fill volume (Figure \ref{fig3}) very closely replicates Figure O3, with a small
+difference. For all lines corresponding to gas bubbles, the replicated figure appears to be
+an exact match. However, for the single line corresponding to the liquid-liquid droplets, the
+slope is steeper than in our figure.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../figures/fig_3.png}
+  \caption{Total dimensionless volume, $\frac{V}{hw^2}$ against flow rate ratio $\frac{q_d}{q_c}$
+  for various width ratios and dispersed fluid types. Replicaiton of Figure O3.}
+  \label{fig3}
+\end{figure}
+
+\subsubsection{Figure O6}
+
+The figure depicting the evolution of the receding interface (Figure \ref{fig6}) replicates
+the corresponding Figure O6 well.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\linewidth]{../figures/fig_6.png}
+  \caption{Evolution of the receding interface as $\frac{2r}{w}$ against dimensionless time,
+  $\frac{q_c}{hw^2}t$ for various width ratios. Replicaiton of Figure O6.}
+  \label{fig6}
+\end{figure}
+
+\section{Discussion}
+
+\subsection{Model Replication}
+
+Python modules were developed that successfully replicate the model in the original work.
+These modules have excellent code testing coverage, and adhere to Python community guidelines.
+Model logic was organized into modules so as to keep it separate from the specific geometries
+used to replicate the figures. By doing so, it is easier to test the functions constituting
+the model and makes it easy to reuse the code for generalization. All module functions can be
+imported into any Python program and used for prediction.
+
+\subsection{Figure Replication}
+
+All figures could be replicated, although with one discrepancy in our figure corresponding to 
+Figure O3.
+
+Given that the same functions from the modules are used to calculate dimensionless volume for both
+liquid-liquid droplets and air bubbles, and that the air bubble results match exactly, it is
+unlikely that the modules are incorrect. This means that one or more of the provided geometries
+are different in our implementation and theirs.
+
+We thought that since the liquid-liquid droplet line appears to be labeled
+as $\frac{w_{in}}{w}=0.67$ though the figure caption states $\frac{w_{in}}{w}=1.0$,
+perhaps the true ratio was $0.67$. However, reducing this ratio only reduces the slope,
+exacerbating the discrepancy.
+
+Remarkably, it appears that the experimental results plotted in Figure O3
+more closely match the line for liquid-liquid droplets in our Fgiure \ref{fig3}
+than theirs. This may be an indication that when generating model results, they incorrectly
+entered one or more geometric parameter.
+
+\subsection{Challenges}
+
+Developing verbose geometry-based functions in the filling module was slightly difficult to do.
+The original work gives some explanation of how the equations were derived, but many steps were
+omitted. This is understandable since describing in full detail results in extremely long
+exposition. Indeed, the granularity of the geometric calculations performed in the modules
+is greater than described here for the same reason.
+
+While replication could have been done by simply using the simplified equation, having
+the geometry-based code provided assurance that our model implementation was correct since
+we could test the results of the verbose code against the simplified equation. This became very
+useful when exact replication of Figure O2a was elusive.
+
+Exact replication of Figure O2a was a matter of luck and the product of typing the simplified
+equation into several programming languages assuming we had made some mistake, despite the
+verbose code matching our implementation of the simplified equation. It is fortunate that we
+happened to eventually make the same mistake as the original authors one of those times. This
+allowed us to exactly replicate their (flawed) results.
+
+The fact that the original authors, and eventually we, made mistakes in entering that equation
+demonstrates how easy it is to make mistakes when writing code that can greatly affect results.
+This is precisely why tests are so important. Unit testing makes it far more likely that
+such bugs will be caught in development.
+
+Perhaps the greatest challenge to replicating the original results came from their
+omission of an explicit equation providing $2r$ as a function of time, $t$ that must have been
+used to generate Figure O6. The authors did not indicate which equations could be used to
+derive such a relationship either. It was with a fair amount of effort that the relationship
+was derived for this replication.
+
+\section{Conclusion}
+
+The model in the original work could be fully replicated based solely on the contents of
+that article. However, two discrepancies in the figures were encountered upon replication.
+The first was attributed to a mistake in the original code, and this mistake was successfully
+replicated in this work. Although the second discrepancy remains, it is likely due to differences
+in the geometries provided to generate the original figure and those presented in the figure caption.
+Such notion is supported by the closer alignment of their experimental results to our modeling results
+than theirs.
+
+\section{Code Availability}
+
+All source code is available at \url{https://github.com/schackartk/t-junction_model_reporoduction}
+
+\section{Author Contributions}
+
+We report author contributions according to the CRediT taxonomy\supercite{allen_how_2019}.
+
+KS: Conceptualization, Formal Analysis, Investigation, Methodology,
+Project Administration, Software, Validation, Visualization, Writing — original draft,
+Writing — review \& editing;
+
+KK: Validation, Writing — original draft, Writing — review \& editing
+
+\section{Acknowledgements}
+
+The authors would like to thank Dr. Qiudong Wang at the University of Arizona for
+challending KS to replicate the results of a math modeling paper as a final project, and
+for providing feedback on the first iteration of this project (originally written
+in MATLAB and available at \url{https://github.com/schackartk/MATH585}).
+
+
