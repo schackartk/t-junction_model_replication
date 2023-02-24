@@ -10,7 +10,7 @@
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/psf/black"><img alt="MIT License" src="https://img.shields.io/github/license/schackartk/t-junction_model_replication"></a>
 
-This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.* 2010 for submission to ReScience C
+This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.* 2010 for submission to ReScience C.
 
 # Repository Structure
 
@@ -27,10 +27,16 @@ The following is a brief overview of the contents of this respository:
 ├── requirements.txt # pip requirements
 ├── setup.cfg        # Code check configurations
 ├── src/             # Code
-└── tests            # Integration tests
+└── tests/           # Integration tests
 ```
 
-# Setup
+# Systems
+
+The code for this project was developed using [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) connected to an [Ubuntu 20.04](https://releases.ubuntu.com/focal/) kernel. Compatibility to other systems may vary. In particular, certain functionality (like GNU Make) may not work on Windows.
+
+If you would like to run the code on a Windows machine, we recommend using WSL2. [This protocol](https://www.protocols.io/view/install-wsl-and-vscode-on-windows-10-q26g78e1klwz/v1) may be helpful for getting that set up.
+
+# Installation
 
 We provide two options for installing the dependencies of this project.
 
