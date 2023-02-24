@@ -10,7 +10,7 @@
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/psf/black"><img alt="MIT License" src="https://img.shields.io/github/license/schackartk/t-junction_model_replication"></a>
 
-This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.* 2010 for submission to ReScienceC
+This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.* 2010 for submission to ReScience C
 
 # Repository Structure
 
