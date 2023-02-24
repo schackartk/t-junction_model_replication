@@ -1,13 +1,13 @@
 # T-Junction Modules and Utilities
 
-This directory contains modules used to mode T-Junction flow. The modules are divided into those used during the filling and squeezing phases.
+This directory contains modules used to mode T-junction droplet/bubble formation. The modules are divided into those used during the filling and squeezing phases.
 
 ```sh
 .
 ├── __init__.py            # Allow modules to be imported
 ├── center.sh              # Output formatting for Make targets
 ├── filling.py             # Filling phase module
-├── formatter_class.pyb    # Argparse help formatter
+├── formatter_class.py     # Argparse help formatter
 └── squeezing.py           # Squeezing phase module
 ```
 # Files
