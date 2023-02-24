@@ -34,14 +34,14 @@ affiliations:
 
 
 # List of keywords (adding the programming language might be a good idea)
-keywords: t-junction, mathematical modelling, python, computational reproducibility
+keywords: t-junction, microfluidics, mathematical modeling, python, computational replicability
 
 # Code URL and DOI/SWH (url is mandatory for replication, doi after acceptance)
 # You can get a DOI for your code from Zenodo, or an SWH identifier from
 # Software Heritage.
 #   see https://guides.github.com/activities/citable-code/
 code:
-  - url: https://github.com/schackartk/t-junction_model_reporoduction/tree/master
+  - url: https://github.com/schackartk/t-junction_model_replication
   - doi: 
   - swh: 
 
