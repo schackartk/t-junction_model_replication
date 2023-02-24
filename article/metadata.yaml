@@ -60,7 +60,8 @@ replication:
 # Don't forget to surround abstract with double quotes
 abstract: "Microfluidic T-junctions are used for creating dispersed bubbles or droplets
 of a consistent volume. Such platforms have been used for a variety of applications,
-such as [...], [...], and [...]. It is often critical that the volume of the
+such as chemical microreactors, biological screening assays, and DNA analysis.
+It is often critical that the volume of the
 bubbles or droplets are consistent and predictable. A mathematical model was
 previously developed for predicting the volume of bubbles and droplets formed in
 microfluidic T-junctions, however, their code was not made readily available.

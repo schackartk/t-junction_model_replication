@@ -1,6 +1,7 @@
 Microfluidic T-junctions are used for creating dispersed bubbles or droplets
 of a consistent volume. Such platforms have been used for a variety of applications,
-such as [...], [...], and [...]. It is often critical that the volume of the
+such as chemical microreactors, biological screening assays, and DNA analysis.
+It is often critical that the volume of the
 bubbles or droplets are consistent and predictable. A mathematical model was
 previously developed for predicting the volume of bubbles and droplets formed in
 microfluidic T-junctions, however, their code was not made readily available.
@@ -11,11 +12,45 @@ could not be replicated exactly.
 
 \section{Introduction}
 
-\subsection{Applications of microfluidic T-junctions}
+\subsection{Microfluidic T-junctions}
 
-\subsection{Importance of droplet/bubble size prediction}
+Microfluidic T-junctions are microfluidic devices composed of T-shaped junctions
+where cross-flowing streams occur. Droplet formation in microfluidic T-junction
+occurs at the junction where liquid or gas from the side channel (dispersed phase)
+meets with liquid in the main channel (continuous phase). The dispersed phase forms
+a plug shape due to the shear and extrusion of the continuous phase and rupture due
+to the instability of interfacial tension\supercite{huang_precise_2020}. Therefore, the
+resulting droplets heavily rely on the channel geometry, flow rate ratio, and device
+surface properties\supercite{dreyfus_ordered_2003}. Microfluidic T-junctions have been
+applied in biological, chemical, and biomedical
+fields\supercite{casadevall_i_solvas_droplet_2011}.
+For example, chemical microreactors that allow very small-scale chemical reactions, high
+throughput biological screening assays, and DNA analysis\supercite{ibrahim_modeling_2021}.
+Thus, the ability to predict the precise bubbles and droplet size generated in microfluidic
+T-junctions is very important because many microfluidic T-junctions applications require
+precise sample volume as determined by droplet size.
 
 \subsection{Models for size prediction}
+
+Since several parameters can affect droplet formation in microfluidic T-junction, it
+can be difficult to precisely tune the droplet size \emph{a priori}. Many mathematical models
+have been reported to solve this issue. For example, a numerical simulation utilizing a
+hydrodynamic model was reported to predict droplet size by varying capillary numbers,
+flow rate ratios, viscosity ratios, and contact angles\supercite{liu_droplet_2009}.
+A statistical model based on the data from several experiments in other published
+works was developed by Steegmans \emph{et al.,} to model a droplet break-up in T-junction which is divided into
+2 phases: droplet growth and detachment phase\supercite{steegmans_generalised_2009}.
+Another study concluded that the effects of surface force and viscous force dominate
+the droplet stream generated in their microfluidic T-junction system based on numerical
+results, theoretical analysis, and experimental measurements\supercite{li_study_2012}.
+A volume-of-fluid model was introduced to investigate the droplet formation process
+by varying the dispersed phase flow rate under a constant capillary
+number\supercite{soh_numerical_2016}. 
+
+In this work, we aim to replicate the mathematical model based on
+geometrical parameters to predict the size of bubbles and droplets created in
+microfluidic T-junctions published by van Steijn \emph{et al.,}\supercite{van_steijn_predictive_2010}
+which was consistent with the model presented in Steegmans \emph{et al.,}.
 
 \subsection{van Steijn Model overview}
 
@@ -33,10 +68,9 @@ This is summarized as the dimensionless volume in the following equation:
 The filling phase begins as the dispersed fluid enters the main
 channel from the inlet channel. This phase continues until the emerging
 dispersed fluid reaches the far side of the main channel, at which time
-the sqeeuzing phase begins.
+the squeezing phase begins.
 
-The equation describing the filling phase defines the dimensionless fill volume as
-Equation \eqref{nondim_fill_vol}:
+The equation describing the filling phase defines the dimensionless fill volume as:
 
 \begin{equation}
   \frac{V_{fill}}{hw^{2}} = 
@@ -96,10 +130,10 @@ so this relationship is used during all calculations in the original work.
 
 \section{Methods}
 
-All code was written in Python v3.11.0\supercite{pypi_python_nodate} and using the
-conda package manager v22.9.0\supercite{noauthor_conda_2017}. Code was developed using
-Windows Subsystem for Linux 2 (WSL2)\supercite{microsoft_windows_nodate} connected to an
-Ubuntu v20.04\supercite{canonical_ltd_ubuntu_2020} kernel.
+All code used for replication was written in Python\supercite{pypi_python_nodate}
+v3.11.0 and using the conda\supercite{noauthor_conda_2017} package manager v22.9.0.
+Code was developed using Windows Subsystem for Linux 2 (WSL2)\supercite{microsoft_windows_nodate}
+connected to anUbuntu\supercite{canonical_ltd_ubuntu_2020} v20.04 kernel.
 
 \subsection{Python modules}
 
@@ -158,20 +192,20 @@ were developed, each with accompanying unit tests.
 
 To fully replicate the results in the original work, the figures showing model outputs were
 replicated using the modules that were developed. A Python script imports the necessary
-functions from the squeezing and filling modules and uses Pandas v1.5.1\supercite{team_pandas_2020}
-and plotnine v0.10.1\supercite{kibirige_plotnine_2022} to create the figures.
+functions from the squeezing and filling modules and uses Pandas\supercite{team_pandas_2020} v1.5.1
+and plotnine\supercite{kibirige_plotnine_2022} v0.10.1 to create the figures.
 This section will describe how each figure was replicated.
 
 For convenience in discussing the figures of the original work, we will prepend figure names
-with “O”. For example, Figure 2 from the original work will be referred to as Fig. O2,
-to distinguish from the figures in this manuscript.
+with “O” to distinguish them from the figures in this manuscript. For example, Figure 2 from
+the original work will be referred to as Figure O2.
 
-Figure O2 has two panels, which are unlabeled in the original work. We have labeled these as O2a
-(left) and O2b (right) for convenience.
+Figure O2 has two panels, which are unlabeled in the original work. We will refer to these as Figure O2a
+(left) and Figure O2b (right) for convenience.
 
 \subsubsection{Figure O2a}
 
-Figure O2a shows the non-dimensionalized volume during the filling phase ($\frac{V_fill}{hw^2}$)
+Figure O2a shows the non-dimensionalized volume during the filling phase ($\frac{V_{fill}}{hw^2}$)
 against the ratio of channel height over channel width ($\frac{h}{w}$) for four width ratios 
 ($\frac{w_{in}}{w}$).
 To replicate this figure, a series of 1000 points were generated spanning $\frac{h}{w} \in [0,0.5]$
@@ -204,8 +238,8 @@ five are air bubbles produced using five width ratios ($\frac{w_{in}}{w}$) and v
 values ($\frac{h}{w}$); the final series shows liquid-liquid droplets with $\frac{w_{in}}{w} = 1$ and
 $\frac{h}{w}=0.48$. For air bubbles $\varepsilon=0.1w$ and for liquid-liquid droplet $\varepsilon=0.01w$.
 
-For replication, continuous flow rate ($q_c$) and channel width ($w$) were both set equal two $1$.
-Channel height ($h$), inlet width ($w_{in}$), and dispersed phase flow rate ($q_d$) were all varied To
+For replication, continuous flow rate ($q_c$) and channel width ($w$) were both set equal to $1$.
+Channel height ($h$), inlet width ($w_{in}$), and dispersed phase flow rate ($q_d$) were all varied to
 achieve the necessary ratios. Corner roundness ($\varepsilon$) was computed based on channel width using the
 relationship described above. 1000 points were generated for each of the six series.
 
@@ -217,7 +251,7 @@ in the same manner as in the original work.
 
 Figure O6 shows the shortest distance between the receding interface from the channel wall ($2r$) normalized
 by channel width ($2r/w$) against time ($t$) multiplied by $\frac{q_c}{hw^2}$. Where continuous phase
-flow rate, $q_c = 3{\mu}L\;\mathrm{min}^{-1}$, height $h=33{\mu}m$, width $w=100{\mu}m$, and corner roundness
+flow rate $q_c = 3{\mu}L\;\mathrm{min}^{-1}$, height $h=33{\mu}m$, width $w=100{\mu}m$, and corner roundness
 $\varepsilon=0.1w$. Three series are shown, corresponding to various width ratios ($\frac{w_{in}}{w}$)
 Additionally, a horizontal line, $\frac{2r_{pinch}}{w}=\frac{h}{h+w}$ is added corresponding to
 their experimentally determined threshold at which pinch-off of the droplet occurs
@@ -244,12 +278,12 @@ relating $R$ and $t$ is given by:
   \left(1-\frac{q_{gutter}}{q_c}\right)
 \end{equation}
 
-Multiplying both sides by $w$ and integrating with respect to $\mathrm{d}t$:
+Multiplying both sides by $w^2$ and integrating with respect to $\mathrm{d}t$:
 
 $$
   \int_{0}^t{\left[2R + \frac{h\pi}{4}\right]
   \frac{\mathrm{d}R}{\mathrm{d}t}} \mathrm{d}t = 
-  \int_{0}^t{\frac{q_c}{hw} \left(1-\frac{\pi}{4}\right)^{-1}
+  \int_{0}^t{\frac{q_c}{h} \left(1-\frac{\pi}{4}\right)^{-1}
   \left(1-\frac{q_{gutter}}{q_c}\right)} \mathrm{d}t
 $$
 
@@ -257,7 +291,7 @@ Evaluating the integrals:
 
 $$ 
   \left. R^2 + \frac{h\pi}{4}R \right|_{t=0}^{t}=
-  \left. \frac{q_c}{hw}
+  \left. \frac{q_c}{h}
   \left(1-\frac{\pi}{4}\right)^{-1}
   \left(1-\frac{q_{gutter}}{q_c}\right)t \right|_{t=0}^{t}
 $$
@@ -268,7 +302,7 @@ $\left. R\left(t\right)\right|_{t=0} = R_{fill}$. Evaluating yields:
 
 $$
   R^2 - R_{fill}^2 + \frac{h\pi}{4}\left(R-R_{fill}\right) = 
-  \frac{q_c}{hw}
+  \frac{q_c}{h}
   \left(1-\frac{\pi}{4}\right)^{-1}
   \left(1-\frac{q_{gutter}}{q_c}\right)t
 $$
@@ -278,7 +312,7 @@ Setting equal to zero and rearranging:
 $$
   R^2 + \frac{h\pi}{4}R -
   R_{fill}^2 - \frac{h\pi}{4}R_{fill} -
-  \frac{q_c}{hw}
+  \frac{q_c}{h}
   \left(1-\frac{\pi}{4}\right)^{-1}
   \left(1-\frac{q_{gutter}}{q_c}\right)t = 0
 $$
@@ -289,12 +323,13 @@ $R$ can be solved for using the quadratic equation to yield:
   R = \frac{-\frac{h\pi}{4} \pm 
   \sqrt{\left(\frac{h\pi}{4}\right)^2 +
   4\left(R_{fill}^2 + \frac{h\pi}{4}R_{fill} +
-  \frac{q_c}{hw}
+  \frac{q_c}{h}
   \left(1-\frac{\pi}{4}\right)^{-1}
   \left(1-\frac{q_{gutter}}{q_c}\right)t\right)}}{2}
 \end{equation}
 
-Therefore $R$ can be evaluated as a function of time, and $2r$ can thus be calculated as:
+Therefore $R$ can be evaluated as a function of time (taking the positive of the square root), and
+$2r$ can thus be calculated as:
 
 \begin{equation}
   2r = R - \sqrt{\left(R - w\right)^2 + \left(R - w_{in}\right)^2} + \varepsilon
@@ -304,8 +339,8 @@ Functions for both $R$ as a function of time, and $2r$ were added
 to the squeezing module.
 
 For replication of Figure O6, the provided geometries for $w$, $h$, and $q_c$ were used. 1000
-point for each inlet width ratio were generated spanning $\frac{q_c}{hw^2}t \in [0,10]$ by varying 
-$w_{in}$. Corner roundness ($\varepsilon$) was calculated based on $w$ as described. $2r$ was
+points for each inlet width ratio were generated spanning $\frac{q_c}{hw^2}t \in [0,10]$ by varying 
+$t$. Corner roundness ($\varepsilon$) was calculated based on $w$ as described. $2r$ was
 computed using the squeezing module and divided by $w$ for plotting. As in Figure O6, linetype
 was mapped to dispersed fluid type (liquid droplets vs. gas bubbles).
 
@@ -316,28 +351,28 @@ To maintain quality of the code that was developed, several precautions were tak
 As previously mentioned, the functions developed in the filling and squeezing modules
 have associated unit tests. For the filling module, unit tests ensure that the verbose
 geometric calculations match the simplified equations in the original work.
-Pytest v7.2.0\supercite{krekel_pytest_2004} testing framework was used for all unit tests.
-Code coverage of the tests is assessed using coveragepy v7.1.0\supercite{batchelder_coveragepy_nodate}.
+Pytest\supercite{krekel_pytest_2004} v7.2.0 testing framework was used for all unit tests.
+Code coverage of the tests is assessed using coveragepy\supercite{batchelder_coveragepy_nodate} v7.1.0.
 Additionally, an integration test was written for the Python script that generates the
-replicates figures, enusring that it can be run and generate figures as output.
+replicated figures, ensuring that it can be run and generate figures as output.
 
-Black v23.1.0\supercite{langa_black_2018} was used to format all Python files.
+Black\supercite{langa_black_2018} v23.1.0 was used to format all Python files.
 
 Several static code checks were employed to automatically assess code quality.
-Pylint v2.15.5\supercite{thenault_pylint_2001} and
-Flake8 v5.0.4\supercite{ziade_flake8_2011} were used for static code checking
+Pylint\supercite{thenault_pylint_2001} v2.15.5 and
+Flake8\supercite{ziade_flake8_2011} v5.0.4 were used for static code checking
 and linting, which adhere to PEP8\supercite{van_rossum_pep_2001} standards. Type annotations were employed
-in all Python code, and mypy v0.990\supercite{lehtosalo_mypy_2012} was used for
+in all Python code, and mypy\supercite{lehtosalo_mypy_2012} v0.990 was used for
 static type checking.
 
-A Make (v4.2.1\supercite{feldman_gnu_1988}) target was added to perform automatic execution of all unit tests and static
-code checks with a single command.
+A Make\supercite{feldman_gnu_1988} (v4.2.1) target was added to perform automatic execution of all
+unit tests and static code checks with a single command.
 
 \section{Results}
 
 \subsection{Python modules}
 
-Two Python modules were developed capturing the model presented in the original work.
+Two Python modules were developed implementing the model presented in the original work.
 
 The filling module consists of 8 functions and 8 unit tests. The squeezing module consists
 of 8 functions and 7 unit tests. Both modules have 100\% test coverage as evaluated by
@@ -414,7 +449,7 @@ the same value.
     \label{fig2a_bad}
   \end{subfigure}
   \caption{Dimensionless fill volume, $\frac{V_{fill}}{hw^2}$ against $\frac{h}{w}$
-  for four width ratios using a) the the correct model, and b) an
+  for four width ratios using a) the correct model, and b) an
   incorrect equation to exactly replicate Figure O2a.}
 \end{figure}
 
@@ -426,7 +461,7 @@ The plot of squeezing coefficient (Figure \ref{fig2b}) exactly replicates Figure
   \centering
   \includegraphics[width=0.8\linewidth]{../figures/fig_2b.png}
   \caption{Squeezing coefficient, $\alpha$ against height / channel width
-  for six width ratios. Replicaiton of Figure O2b.}
+  for six width ratios. Replication of Figure O2b.}
   \label{fig2b}
 \end{figure}
 
@@ -464,7 +499,7 @@ the corresponding Figure O6 well.
 
 Python modules were developed that successfully replicate the model in the original work.
 These modules have excellent code testing coverage, and adhere to Python community guidelines.
-Model logic was organized into modules so as to keep it separate from the specific geometries
+Model logic was organized into modules to keep it separate from the specific geometries
 used to replicate the figures. By doing so, it is easier to test the functions constituting
 the model and makes it easy to reuse the code for generalization. All module functions can be
 imported into any Python program and used for prediction.
@@ -485,7 +520,7 @@ perhaps the true ratio was $0.67$. However, reducing this ratio only reduces the
 exacerbating the discrepancy.
 
 Remarkably, it appears that the experimental results plotted in Figure O3
-more closely match the line for liquid-liquid droplets in our Fgiure \ref{fig3}
+more closely match the line for liquid-liquid droplets in our Figure \ref{fig3}
 than theirs. This may be an indication that when generating model results, they incorrectly
 entered one or more geometric parameter.
 
@@ -509,7 +544,7 @@ happened to eventually make the same mistake as the original authors one of thos
 allowed us to exactly replicate their (flawed) results.
 
 The fact that the original authors, and eventually we, made mistakes in entering that equation
-demonstrates how easy it is to make mistakes when writing code that can greatly affect results.
+demonstrates how easy it is to make mistakes that can greatly affect results when writing code.
 This is precisely why tests are so important. Unit testing makes it far more likely that
 such bugs will be caught in development.
 
@@ -541,13 +576,14 @@ KS: Conceptualization, Formal Analysis, Investigation, Methodology,
 Project Administration, Software, Validation, Visualization, Writing — original draft,
 Writing — review \& editing;
 
-KK: Validation, Writing — original draft, Writing — review \& editing
+KK: Conceptualization, Investigation, Validation, Writing — original draft,
+Writing — review \& editing
 
 \section{Acknowledgements}
 
 The authors would like to thank Dr. Qiudong Wang at the University of Arizona for
-challending KS to replicate the results of a math modeling paper as a final project, and
+challenging KS to replicate the results of a math modeling paper as a final project, and
 for providing feedback on the first iteration of this project (originally written
-in MATLAB and available at \url{https://github.com/schackartk/MATH585}).
+in MATLAB, available at \url{https://github.com/schackartk/MATH585}).
 
 
