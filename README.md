@@ -18,6 +18,7 @@ The following is a brief overview of the contents of this respository:
 
 ```sh
 .
+├── .reports/        # Static code check reports & badges
 ├── LICENSE          # License file
 ├── Makefile         # Make commands
 ├── article/         # Article (LaTeX) contents
