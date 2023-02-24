@@ -1,6 +1,6 @@
 # T-Junction Modules and Utilities
 
-This directory contains modules used to mode T-Junction flow. The modules are divided into those used during the filling and squeezing phases.
+This directory contains modules used to mode T-junction droplet/bubble formation. The modules are divided into those used during the filling and squeezing phases.
 
 ```sh
 .
