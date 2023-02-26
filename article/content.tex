@@ -6,9 +6,10 @@ bubbles or droplets are consistent and predictable. A mathematical model was
 previously developed for predicting the volume of bubbles and droplets formed in
 microfluidic T-junctions, however, their code was not made readily available.
 In this work, we develop Python modules that implement the mathematical model and 
-replicate the figures in the original work. While the model
-could be replicated, some results shown in the original work were flawed while others
-could not be replicated exactly.
+replicate the figures in the original work. The model
+could be fully replicated based solely on the contents of the original article.
+However, one figure provided in the original work was inconsistent with the
+model equations while another could not be fully replicated.
 
 \section{Introduction}
 
@@ -133,7 +134,7 @@ so this relationship is used during all calculations in the original work.
 All code used for replication was written in Python\supercite{pypi_python_nodate}
 v3.11.0 and using the conda\supercite{noauthor_conda_2017} package manager v22.9.0.
 Code was developed using Windows Subsystem for Linux 2 (WSL2)\supercite{microsoft_windows_nodate}
-connected to anUbuntu\supercite{canonical_ltd_ubuntu_2020} v20.04 kernel.
+connected to an Ubuntu\supercite{canonical_ltd_ubuntu_2020} v20.04 kernel.
 
 \subsection{Python modules}
 
@@ -495,7 +496,7 @@ the corresponding Figure O6 well.
 
 \section{Discussion}
 
-\subsection{Model Replication}
+\subsection{Model replication}
 
 Python modules were developed that successfully replicate the model in the original work.
 These modules have excellent code testing coverage, and adhere to Python community guidelines.
@@ -504,7 +505,7 @@ used to replicate the figures. By doing so, it is easier to test the functions c
 the model and makes it easy to reuse the code for generalization. All module functions can be
 imported into any Python program and used for prediction.
 
-\subsection{Figure Replication}
+\subsection{Replication of figures}
 
 All figures could be replicated, although with one discrepancy in our figure corresponding to 
 Figure O3.
@@ -528,7 +529,7 @@ entered one or more geometric parameter.
 
 Developing verbose geometry-based functions in the filling module was slightly difficult to do.
 The original work gives some explanation of how the equations were derived, but many steps were
-omitted. This is understandable since describing in full detail results in extremely long
+omitted. This is understandable since describing in full detail would result in extremely long
 exposition. Indeed, the granularity of the geometric calculations performed in the modules
 is greater than described here for the same reason.
 
@@ -538,10 +539,10 @@ we could test the results of the verbose code against the simplified equation. T
 useful when exact replication of Figure O2a was elusive.
 
 Exact replication of Figure O2a was a matter of luck and the product of typing the simplified
-equation into several programming languages assuming we had made some mistake, despite the
+equation into several programming languages (assuming we had made some mistake), despite the
 verbose code matching our implementation of the simplified equation. It is fortunate that we
 happened to eventually make the same mistake as the original authors one of those times. This
-allowed us to exactly replicate their (flawed) results.
+allowed us to exactly replicate their figure.
 
 The fact that the original authors, and eventually we, made mistakes in entering that equation
 demonstrates how easy it is to make mistakes that can greatly affect results when writing code.
@@ -549,19 +550,20 @@ This is precisely why tests are so important. Unit testing makes it far more lik
 such bugs will be caught in development.
 
 Perhaps the greatest challenge to replicating the original results came from their
-omission of an explicit equation providing $2r$ as a function of time, $t$ that must have been
-used to generate Figure O6. The authors did not indicate which equations could be used to
-derive such a relationship either. It was with a fair amount of effort that the relationship
+omission of an explicit equation providing $2r$ as a function of time $t$, which must have been
+used to generate Figure O6. Further, the authors did not indicate which equations could be used to
+derive such a relationship. It was with a fair amount of effort that the relationship
 was derived for this replication.
 
 \section{Conclusion}
 
 The model in the original work could be fully replicated based solely on the contents of
 that article. However, two discrepancies in the figures were encountered upon replication.
-The first was attributed to a mistake in the original code, and this mistake was successfully
-replicated in this work. Although the second discrepancy remains, it is likely due to differences
+The first was likely due to a mistake in the original code; the original figure was successfully
+replicated in this work by deliberately using an equation that was incorrect.
+Although the second discrepancy remains, it is likely due to differences
 in the geometries provided to generate the original figure and those presented in the figure caption.
-Such notion is supported by the closer alignment of their experimental results to our modeling results
+This notion is supported by the closer alignment of their experimental results to our modeling results
 than theirs.
 
 \section{Code Availability}
