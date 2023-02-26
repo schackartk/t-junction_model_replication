@@ -20,27 +20,27 @@ where cross-flowing streams occur. Droplet formation in microfluidic T-junction
 occurs at the junction where liquid or gas from the side channel (dispersed phase)
 meets with liquid in the main channel (continuous phase). The dispersed phase forms
 a plug shape due to the shear and extrusion of the continuous phase and rupture due
-to the instability of interfacial tension\supercite{huang_precise_2020}. Therefore, the
-resulting droplets heavily rely on the channel geometry, flow rate ratio, and device
+to the instability of interface\supercite{huang_precise_2020}. The volume of the
+resulting droplets heavily relies on the channel geometry, flow rate ratio, and device
 surface properties\supercite{dreyfus_ordered_2003}. Microfluidic T-junctions have been
 applied in biological, chemical, and biomedical
 fields\supercite{casadevall_i_solvas_droplet_2011}.
 For example, chemical microreactors that allow very small-scale chemical reactions, high
 throughput biological screening assays, and DNA analysis\supercite{ibrahim_modeling_2021}.
-Thus, the ability to predict the precise bubbles and droplet size generated in microfluidic
-T-junctions is very important because many microfluidic T-junctions applications require
+The ability to precisely predict the size of bubbles and droplet generated in microfluidic
+T-junctions is very important because many of these applications require
 precise sample volume as determined by droplet size.
 
 \subsection{Models for size prediction}
 
-Since several parameters can affect droplet formation in microfluidic T-junction, it
-can be difficult to precisely tune the droplet size \emph{a priori}. Many mathematical models
-have been reported to solve this issue. For example, a numerical simulation utilizing a
-hydrodynamic model was reported to predict droplet size by varying capillary numbers,
+Since several parameters can affect droplet formation in microfluidic T-junctions, it
+can be difficult to precisely tune the droplet size \emph{a priori}. Many models
+have been reported to solve this issue. For example, a numerical simulation approach was proposed, utilizing a
+hydrodynamic model to predict droplet size by varying capillary numbers,
 flow rate ratios, viscosity ratios, and contact angles\supercite{liu_droplet_2009}.
-A statistical model based on the data from several experiments in other published
-works was developed by Steegmans \emph{et al.,} to model a droplet break-up in T-junction which is divided into
-2 phases: droplet growth and detachment phase\supercite{steegmans_generalised_2009}.
+In a study by Steegmans \emph{et al.,}, a statistical model based on the data from
+experiments in other published works was developed to model droplet break-up in T-junctions. Their approach divided
+the process into two phases: (1) droplet growth, and (2) detachment phase\supercite{steegmans_generalised_2009}.
 Another study concluded that the effects of surface force and viscous force dominate
 the droplet stream generated in their microfluidic T-junction system based on numerical
 results, theoretical analysis, and experimental measurements\supercite{li_study_2012}.
@@ -51,11 +51,11 @@ number\supercite{soh_numerical_2016}.
 In this work, we aim to replicate the mathematical model based on
 geometrical parameters to predict the size of bubbles and droplets created in
 microfluidic T-junctions published by van Steijn \emph{et al.,}\supercite{van_steijn_predictive_2010}
-which was consistent with the model presented in Steegmans \emph{et al.,}.
+which was consistent with the model presented by Steegmans \emph{et al.,}.
 
 \subsection{van Steijn Model overview}
 
-The model presented in the original work by van Steijn \emph{et al.,}\supercite{van_steijn_predictive_2010}
+The model presented in the original work by van Steijn \emph{et al.,}
 divides the droplet formation process into two phases: \emph{filling} and \emph{squeezing}. The final model
 adds the contributions from the two stages to arrive at the droplet/bubble volume.
 This is summarized as the dimensionless volume in the following equation:
@@ -83,7 +83,7 @@ The equation describing the filling phase defines the dimensionless fill volume 
       -\frac{1}{2} \left(1 - \frac{\pi}{4}\right) \left(\left(\frac{\pi}{2} - \arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} + \frac{\pi}{2}\right)\frac{h}{w}
       & \quad \text{for } w_{in} > w
     \end{cases}\label{nondim_fill_vol}
-  \end{equation}
+\end{equation}
 
 This equation is derived strictly based on geometries that are present when the
 emerging dispersed phase reaches the far wall of the main channel.
@@ -159,16 +159,27 @@ This is summarized as:
   V_{fill} = V_{gross} - 2*V_{gutter} = hA_{droplet} - 2A_{gutter}l_{gutter} \label{fill_vol}
 \end{equation}
 
-The equation for $A_{droplet}$ and $l_{gutter}$ are dependent on the the channel width and the inlet width. If inlet width $\leq$
-channel width, then
-$$A_{droplet} = \frac{1}{4}{\pi}w^2 + \frac{1}{2}{\pi}\left(\frac{w}{2}\right)^2$$
-$$l_{gutter} = \frac{1}{4}2{\pi}w + \frac{1}{2}2{\pi}\frac{w}{2}$$
-If inlet width is greater than channel width,
-$$A_{droplet} = \frac{\pi}{2}\left(\frac{w}{2}\right)^2 +
-\frac{\pi}{4}w_{in}^2 -
-w_{in}^2\frac{1}{2}\arcsin{\left(\frac{w_{in}-w}{w_{in}}\right)} -
-\frac{1}{2}\left(w_{in}-w\right)\sqrt{w_{in}^2 - \left(w_{in}-w\right)^2}$$
-$$l_{gutter} = \frac{w\pi}{2}+w_{in}\left(\frac{\pi}{2}-\arcsin\left(1-\frac{w}{w_{in}}\right)\right)$$
+The equation for $A_{droplet}$ is given by:
+
+$$
+A_{droplet} = 
+    \begin{cases}
+      \frac{1}{4}{\pi}w^2 + \frac{1}{2}{\pi}\left(\frac{w}{2}\right)^2 & \quad \text{for } w_{in} \leq w\\
+      \frac{\pi}{2}\left(\frac{w}{2}\right)^2 + \frac{\pi}{4}w_{in}^2 \\
+      - w_{in}^2\frac{1}{2}\arcsin{\left(\frac{w_{in}-w}{w_{in}}\right)} \\
+      - \frac{1}{2}\left(w_{in}-w\right)\sqrt{w_{in}^2 - \left(w_{in}-w\right)^2} & \quad \text{for } w_{in} > w
+    \end{cases}
+$$
+
+The equation for $l_{gutter}$ is given by:
+
+$$
+l_{gutter} = 
+    \begin{cases}
+      \frac{1}{4}2{\pi}w + \frac{1}{2}2{\pi}\frac{w}{2} & \quad \text{for } w_{in} \leq w\\
+      \frac{w\pi}{2}+w_{in}\left(\frac{\pi}{2}-\arcsin\left(1-\frac{w}{w_{in}}\right)\right) & \quad \text{for } w_{in} > w
+    \end{cases}
+$$
 
 \par
 The equation for the cross-sectional area of the gutter is 
