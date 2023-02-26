@@ -58,7 +58,36 @@ $ conda activate ./env
 
 Alternatively, pip can be used. This project was developed with Python 3.11.0, so it is best to ensure that version is installed.
 
-The following can be executed (preferably in an isolated or virtual environment) to install with pip:
+To see if Python 3.11 is available, run:
+```sh
+$ which python3.11
+```
+
+If nothing is returned, install Python 3.11:
+```sh
+$ sudo apt update
+$ sudo apt install python3.11
+```
+
+We also recommend using a virtual environment, to get the corresponding Python package `venv`, run:
+
+```sh
+$ sudo apt install python3.11-venv
+```
+
+Then create a virtual environment, for example:
+
+```sh
+$ python3.11 -m venv venv
+```
+
+And activate it:
+
+```sh
+$ source ./venv/bin/activate
+```
+
+Then pip can be used to install the requirements (preferably in a virtual environment as described above):
 
 ```
 $ pip install -r requirements.txt
