@@ -198,7 +198,7 @@
 
 % --- Text Layout -------------------------------------------------------------
 % No indentation at beginning of a new paragraph
-\setlength\parindent{0pt}
+\setlength\parindent{12pt}
 
 % No space between items in itemize and enuemrate lists
 \RequirePackage{enumitem}
