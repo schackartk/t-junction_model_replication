@@ -28,7 +28,7 @@ To generate the figures and output them to `figures/` (the default), run:
 $ src/make_figures.py
 Generating figures...
 Saving figures...
-Done. See figures in "new_figures".
+Done. See figures in "figures".
 ```
 
 This will create five figures in the output directory. The names of the figures correspond to the figure numbers in the original work.

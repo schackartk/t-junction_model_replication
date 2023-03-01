@@ -154,7 +154,7 @@ Done. See figures in "new_figures".
 This will create five figures in the output directory:
 
 ```sh
-$ ls figures/
+$ ls new_figures/
 fig_2a.png  fig_2a_incorrect.png  fig_2b.png  fig_3.png  fig_6.png
 ```
 
