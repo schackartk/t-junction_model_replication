@@ -20,3 +20,22 @@ This script can be executed to generate the figures which replicate those in the
 
 This script imports several functions from the modules within `utils/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
 
+By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
+
+To generate the figures and output them to `figures/` (the default), run:
+
+```sh
+$ src/make_figures.py
+```
+
+This will create five figures in the output directory. The names of the figures correspond to the figure numbers in the original work.
+
+```sh
+$ tree figures/
+figures/
+├── fig_2a.png             # Figure 2a using correct eqn
+├── fig_2a_incorrect.png   # Figure 2a as shown in original work
+├── fig_2b.png             # Figure 2b as shown in original work
+├── fig_3.png              # Figure 3 as shown in original work
+└── fig_6.png              # Figure 6 as shown in original work
+``
