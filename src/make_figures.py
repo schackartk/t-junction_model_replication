@@ -60,7 +60,7 @@ def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9
     """
 
     widths = [1.0]
-    heights = map(lambda x: float(x / 1000), range(0, 501))
+    heights = map(lambda x: float(x / 2000), range(1, 1001))
     inlet_widths = [1, 4 / 3, 2, 3]
 
     width_col = []
@@ -116,7 +116,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     widths = [1.0]
     flow_ratio = 0.1
     epsilon = 0.0
-    heights = map(lambda x: float(x / 1000), range(0, 501))
+    heights = map(lambda x: float(x / 2000), range(1, 1001))
     inlet_widths = [1 / 3, 2 / 3, 1, 4 / 3, 2, 3]
 
     width_col = []
@@ -177,7 +177,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
     gutter_flow = continuous_flow * 0.1
     width = 1.0
     inlet_widths = [1 / 3, 2 / 3, 1, 4 / 3, 3]
-    dispersed_flows = list(map(lambda x: float(x / 100), range(0, 1001)))
+    dispersed_flows = list(map(lambda x: float(x / 100), range(1, 1001)))
 
     # h/w is assigned based on width ratio
     height_dictionary = {
@@ -250,13 +250,15 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
     )
     vol_df["vol"] = vol_df["fill_vol"] + vol_df["squeeze_vol"]
 
+    y_max = 25
+    vol_df = vol_df[vol_df["vol"] <= y_max]
     plot = (
         p9.ggplot(
             vol_df, p9.aes("flow_ratio", "vol", color="width_ratio", linetype="type")
         )
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
-        + p9.ylim(0, 25)
+        + p9.ylim(0, y_max)
         + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
         + p9.theme_light()
         + p9.labs(
@@ -285,7 +287,7 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
     pinch_thresh = height / (height + width)
 
     inlet_width_ratios = [1 / 3, 1, 3]
-    alpha_vals = list(map(lambda x: float(x / 100), range(0, 1001)))
+    alpha_vals = list(map(lambda x: float(x / 100), range(1, 1001)))
 
     inlet_width_col = []
     alpha_col = []
@@ -323,6 +325,9 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
     )
     df["2r_w"] = df["2r"] / df["width"]
 
+    y_max = 1.2
+    df = df[df["2r_w"] <= y_max]
+    df = df[df["2r_w"] >= 0]
     plot = (
         p9.ggplot(df, p9.aes(x="alpha", y="2r_w", color="width_ratio"))
         + p9.geom_hline(
@@ -331,7 +336,7 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
         + p9.scale_y_continuous(
-            breaks=[tick / 10 for tick in list(range(0, 14, 2))], limits=[0, 1.2]
+            breaks=[tick / 10 for tick in list(range(0, 14, 2))], limits=[0, y_max]
         )
         + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
         + p9.theme_light()
@@ -368,11 +373,20 @@ def main() -> None:
     fig_6 = make_fig_6(color_mapping)
 
     print("Saving figures...")
-    fig_2a.save(os.path.join(out_dir, "fig_2a.png"))
-    fig_2a_incorrect.save(os.path.join(out_dir, "fig_2a_incorrect.png"))
-    fig_2b.save(os.path.join(out_dir, "fig_2b.png"))
-    fig_3.save(os.path.join(out_dir, "fig_3.png"))
-    fig_6.save(os.path.join(out_dir, "fig_6.png"))
+    fig_2a.save(
+        os.path.join(out_dir, "fig_2a.png"), width=6.4, height=4.8, verbose=False
+    )
+    fig_2a_incorrect.save(
+        os.path.join(out_dir, "fig_2a_incorrect.png"),
+        width=6.4,
+        height=4.8,
+        verbose=False,
+    )
+    fig_2b.save(
+        os.path.join(out_dir, "fig_2b.png"), width=6.4, height=4.8, verbose=False
+    )
+    fig_3.save(os.path.join(out_dir, "fig_3.png"), width=6.4, height=4.8, verbose=False)
+    fig_6.save(os.path.join(out_dir, "fig_6.png"), width=6.4, height=4.8, verbose=False)
 
     print(f'Done. See figures in "{out_dir}".')
 
