@@ -38,11 +38,31 @@ If you would like to run the code on a Windows machine, we recommend using WSL2.
 
 # Installation
 
+## Cloning
+
+First, clone the repository to your system locally. From the command-line in the directory where you would like to clone the project, run:
+
+```sh
+# If you have ssh keys set up
+$ git clone git@github.com:schackartk/t-junction_model_replication.git
+
+# If you do not have ssh keys set up
+$ git clone https://github.com/schackartk/t-junction_model_replication.git
+```
+
+The change directory into the project:
+
+```sh
+$ cd t-junction_model_replication/
+```
+
+## Dependencies
+
 We provide two options for installing the dependencies of this project.
 
-## `conda`
+### `conda`
 
-To create a conda environment using the provided `environment.yml`, the following can be run:
+If you have conda installed, you can create a conda environment using the provided `environment.yml`, the following can be run:
 
 ```
 $ conda env create -f environment.yml -p ./env
@@ -54,7 +74,7 @@ This creates a conda environment in the root of the repository, which is activat
 $ conda activate ./env
 ```
 
-## `pip`
+### `pip`
 
 Alternatively, pip can be used. This project was developed with Python 3.11.0, so it is best to ensure that version is installed.
 
@@ -78,13 +98,13 @@ $ sudo apt install python3.11-venv
 Then create a virtual environment, for example:
 
 ```sh
-$ python3.11 -m venv venv
+$ python3.11 -m venv env/
 ```
 
 And activate it:
 
 ```sh
-$ source ./venv/bin/activate
+$ source ./env/bin/activate
 ```
 
 Then pip can be used to install the requirements (preferably in a virtual environment as described above):
@@ -107,16 +127,35 @@ All tests have passed during development, any failing tests may be indicative of
 
 # Replicating results
 
-The script `src/make_figures.py` is used to generate the replicated figures. Help for that script can be accessed with `-h|--help`:
+The script `src/make_figures.py` is used to generate the replicated figures. Help for that script can be accessed with `-h|--help`.
 
 ```sh
 $ src/make_figures.py -h
 ```
 
+*Note*: if you are not running the code in a virtual or conda environment, your system may default to using an incorrect Python version leading to errors. If this is the case, specify the Python version when running, for example:
+
+```sh
+$ python3.11 src/make_figures.py -h
+```
+
 By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
+
+To generate the figures and output them to `figures/` (the default), run:
+
+```sh
+$ src/make_figures.py
+```
+
+This will create five figures in the output directory:
+
+```sh
+$ ls figures/
+fig_2a.png  fig_2a_incorrect.png  fig_2b.png  fig_3.png  fig_6.png
+```
 
 # Authorship
 
-Kenneth E. Schackart III: Research Software Consulting, Tucson Arizona, United States of America
+Kenneth E. Schackart III: (Formerly) University of Arizona, Tucson Arizona, United States of America
 
 Kattika Kaarj: Suranaree University of Technology, Nakhon Ratchasima, Thailand 
