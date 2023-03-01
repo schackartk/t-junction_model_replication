@@ -144,8 +144,11 @@ By default all figures are output to `figures/`. However, this can be changed us
 
 For example, to generate the figures and output them to `new_figures/` (the default), run:
 
-```sh
+```
 $ src/make_figures.py -o new_figures/
+Generating figures...
+Saving figures...
+Done. See figures in "new_figures".
 ```
 
 This will create five figures in the output directory:
