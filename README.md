@@ -50,7 +50,7 @@ $ git clone git@github.com:schackartk/t-junction_model_replication.git
 $ git clone https://github.com/schackartk/t-junction_model_replication.git
 ```
 
-The change directory into the project:
+Then change directory into the project:
 
 ```sh
 $ cd t-junction_model_replication/
@@ -58,11 +58,11 @@ $ cd t-junction_model_replication/
 
 ## Dependencies
 
-We provide two options for installing the dependencies of this project.
+We provide two options for installing the dependencies of this project, `conda` and `pip`.
 
 ### `conda`
 
-If you have conda installed, you can create a conda environment using the provided `environment.yml`, the following can be run:
+If you have conda installed, you can create a conda environment using the provided `environment.yml` by running:
 
 ```
 $ conda env create -f environment.yml -p ./env
@@ -83,22 +83,23 @@ To see if Python 3.11 is available, run:
 $ which python3.11
 ```
 
+If this returns a python3.11 path, skip this next step.
 If nothing is returned, install Python 3.11:
 ```sh
 $ sudo apt update
 $ sudo apt install python3.11
 ```
 
-We also recommend using a virtual environment, to get the corresponding Python package `venv`, run:
+We also recommend using a virtual environment. To get the package `venv` for Python3.11, run:
 
 ```sh
 $ sudo apt install python3.11-venv
 ```
 
-Then create a virtual environment, for example:
+Then create a virtual environment. For example, you may call in `env`:
 
 ```sh
-$ python3.11 -m venv env/
+$ python3.11 -m venv env
 ```
 
 And activate it:
@@ -141,10 +142,10 @@ $ python3.11 src/make_figures.py -h
 
 By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
 
-To generate the figures and output them to `figures/` (the default), run:
+For example, to generate the figures and output them to `new_figures/` (the default), run:
 
 ```sh
-$ src/make_figures.py
+$ src/make_figures.py -o new_figures/
 ```
 
 This will create five figures in the output directory:
