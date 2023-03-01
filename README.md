@@ -142,7 +142,7 @@ $ python3.11 src/make_figures.py -h
 
 By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
 
-For example, to generate the figures and output them to `new_figures/` (the default), run:
+For example, to generate the figures and output them to `new_figures/`, run:
 
 ```
 $ src/make_figures.py -o new_figures/
