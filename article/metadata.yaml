@@ -54,7 +54,7 @@ data:
 replication:
  - cite: van Steijn V., Kleijn C.R., Kreutzer M.T., Predictive model for the size of bubbles and droplets created in microfluidic T-junctions. Lab Chip, 2010,10, 2513-2518
  - bib:  van_steijn_predictive_2010
- - url:  https://pubs.rsc.org/en/content/articlelanding/2010/lc/c002625e/unauth
+ - url:  https://www.researchgate.net/publication/45114766_Predictive_model_for_the_size_of_bubbles_and_droplets_created_in_microfluidic_T-junctions
  - doi:  10.1039/c002625e
 
 # Don't forget to surround abstract with double quotes
