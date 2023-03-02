@@ -30,10 +30,10 @@ Create figures which replicate those in the original work using the modules deve
 
 options:
   -h, --help         show this help message and exit
-  -o, --out-dir DIR  Output directory (default: figures/)
+  -o, --out-dir DIR  Output directory (default: out/)
 ```
 
-By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
+By default all figures are output to `out/`. However, this can be changed using the optional `-o|--out-dir` flag.
 
 For example, to generate the figures and output them to `new_figures/`, run:
 

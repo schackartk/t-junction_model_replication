@@ -128,13 +128,13 @@ All tests have passed during development, any failing tests may be indicative of
 
 # Replicating results
 
-To generate the figures and output them to `figures/` (the default), run:
+To generate the figures and output them to `out/` (the default), run:
 
 ```
 $ src/make_figures.py
 Generating figures...
 Saving figures...
-Done. See figures in "figures".
+Done. See figures in "out".
 ```
 
 *Note*: if you are not running the code in a virtual or conda environment, your system may default to using an incorrect Python version leading to errors. If this is the case, specify the Python version when running, for example:
@@ -146,8 +146,8 @@ $ python3.11 src/make_figures.py
 This will create five figures in the output directory. The names of the figures correspond to the figure numbers in the original work.
 
 ```sh
-$ tree figures/
-figures/
+$ tree out/
+out/
 ├── fig_2a.png             # Figure 2a using correct eqn
 ├── fig_2a_incorrect.png   # Figure 2a as shown in original work
 ├── fig_2b.png             # Figure 2b as shown in original work

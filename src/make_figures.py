@@ -42,7 +42,7 @@ def get_args() -> Args:
         help="Output directory",
         metavar="DIR",
         type=str,
-        default="figures/",
+        default="out/",
     )
 
     args = parser.parse_args()
