@@ -13,7 +13,7 @@ import pytest
 
 
 # -------------------------------------------------------------------------------------
-def calc_gross_volume(height: float, area: float) -> float:
+def _calc_gross_volume(height: float, area: float) -> float:
     """
     Calculate the gross volume of the droplet (before subtracting gutters)
 
@@ -27,14 +27,14 @@ def calc_gross_volume(height: float, area: float) -> float:
 
 # -------------------------------------------------------------------------------------
 def test_calc_gross_volume() -> None:
-    """Test calc_gross_volume()"""
+    """Test _calc_gross_volume()"""
 
-    assert calc_gross_volume(3.0, 7.0) == pytest.approx(21.0)
-    assert calc_gross_volume(4.0, 5.0) == pytest.approx(20.0)
+    assert _calc_gross_volume(3.0, 7.0) == pytest.approx(21.0)
+    assert _calc_gross_volume(4.0, 5.0) == pytest.approx(20.0)
 
 
 # -------------------------------------------------------------------------------------
-def calc_gutter_area(height: float) -> float:
+def _calc_gutter_area(height: float) -> float:
     """
     Calculate the cross-sectional area of a gutter
 
@@ -51,14 +51,14 @@ def calc_gutter_area(height: float) -> float:
 
 # -------------------------------------------------------------------------------------
 def test_calc_gutter_area() -> None:
-    """Test calc_gutter_area()"""
+    """Test _calc_gutter_area()"""
 
-    assert calc_gutter_area(1) == pytest.approx(0.25 * (1 - PI / 4))
-    assert calc_gutter_area(2) == pytest.approx(1 - PI / 4)
+    assert _calc_gutter_area(1) == pytest.approx(0.25 * (1 - PI / 4))
+    assert _calc_gutter_area(2) == pytest.approx(1 - PI / 4)
 
 
 # -------------------------------------------------------------------------------------
-def calc_gutter_volume(height: float, gutter_length: float) -> float:
+def _calc_gutter_volume(height: float, gutter_length: float) -> float:
     """
     Calculate the volume of an individual gutter
 
@@ -67,21 +67,21 @@ def calc_gutter_volume(height: float, gutter_length: float) -> float:
     `gutter_length`: length of gutter (droplet perimeter)
     """
 
-    gutter_area = calc_gutter_area(height)
+    gutter_area = _calc_gutter_area(height)
 
     return gutter_area * gutter_length
 
 
 # -------------------------------------------------------------------------------------
 def test_calc_gutter_volume() -> None:
-    """Test calc_gutter_volume()"""
+    """Test _calc_gutter_volume()"""
 
-    assert calc_gutter_volume(1, 4) == pytest.approx(1 - PI / 4)
-    assert calc_gutter_volume(2, 8) == pytest.approx(8 - 2 * PI)
+    assert _calc_gutter_volume(1, 4) == pytest.approx(1 - PI / 4)
+    assert _calc_gutter_volume(2, 8) == pytest.approx(8 - 2 * PI)
 
 
 # -------------------------------------------------------------------------------------
-def calc_circle_fraction_area(radius: float, portion: float) -> float:
+def _calc_circle_fraction_area(radius: float, portion: float) -> float:
     """
     Calculate a fraction of the area of a circle
 
@@ -95,17 +95,17 @@ def calc_circle_fraction_area(radius: float, portion: float) -> float:
 
 # -------------------------------------------------------------------------------------
 def test_calc_circle_fraction_area() -> None:
-    """Test calc_circle_fraction_area()"""
+    """Test _calc_circle_fraction_area()"""
 
     radius = 2
 
     portion = 0.5
     exp = 6.283185
-    assert calc_circle_fraction_area(radius, portion) == pytest.approx(exp)
+    assert _calc_circle_fraction_area(radius, portion) == pytest.approx(exp)
 
     portion = 0.25
     exp = 3.14159
-    assert calc_circle_fraction_area(radius, portion) == pytest.approx(exp)
+    assert _calc_circle_fraction_area(radius, portion) == pytest.approx(exp)
 
 
 # -------------------------------------------------------------------------------------
@@ -121,7 +121,7 @@ def calc_fill_volume(height: float, width: float, inlet_width: float) -> float:
 
     if inlet_width <= width:
         # Mid-plane area
-        area = calc_circle_fraction_area(width, 0.25) + calc_circle_fraction_area(
+        area = _calc_circle_fraction_area(width, 0.25) + _calc_circle_fraction_area(
             width / 2, 0.5
         )
 
@@ -130,7 +130,7 @@ def calc_fill_volume(height: float, width: float, inlet_width: float) -> float:
         half_circle_length = 0.5 * PI * width
         gutter_length = quarter_circle_length + half_circle_length
 
-        fill_volume = calc_gross_volume(height, area) - 2 * calc_gutter_volume(
+        fill_volume = _calc_gross_volume(height, area) - 2 * _calc_gutter_volume(
             height, gutter_length
         )
 
@@ -147,16 +147,16 @@ def calc_fill_volume(height: float, width: float, inlet_width: float) -> float:
 
         area_in_inlet = right_triangle_area + sector_area
         quarter_circle_in_channel = (
-            calc_circle_fraction_area(inlet_width, 0.25) - area_in_inlet
+            _calc_circle_fraction_area(inlet_width, 0.25) - area_in_inlet
         )
-        area = calc_circle_fraction_area(width / 2, 0.5) + quarter_circle_in_channel
+        area = _calc_circle_fraction_area(width / 2, 0.5) + quarter_circle_in_channel
 
         # Gutter length and volume
         half_circle_length = 0.5 * PI * width
         arc_length = inlet_width * ((PI / 2) - math.asin(1 - (width / inlet_width)))
         gutter_length = half_circle_length + arc_length
 
-        fill_volume = calc_gross_volume(height, area) - 2 * calc_gutter_volume(
+        fill_volume = _calc_gross_volume(height, area) - 2 * _calc_gutter_volume(
             height, gutter_length
         )
 

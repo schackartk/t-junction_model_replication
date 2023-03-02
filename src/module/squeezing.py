@@ -34,7 +34,7 @@ def calc_squeezing_volume(
     `flow_gutter`: volumetric flow rate of gutter
     """
 
-    alpha = calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
+    alpha = _calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
 
     squeezing_volume = alpha * height * (width**2) * (flow_disp / flow_cont)
 
@@ -85,7 +85,7 @@ def test_calc_nondim_squeeze_volume() -> None:
     flow_gutter = 0.5
     flow_disp = 3.0
 
-    alpha = calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
+    alpha = _calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
 
     expected_nondim_vol = alpha * flow_disp / flow_cont
 
@@ -95,7 +95,7 @@ def test_calc_nondim_squeeze_volume() -> None:
 
 
 # -------------------------------------------------------------------------------------
-def calc_alpha(
+def _calc_alpha(
     height: float,
     width: float,
     inlet_width: float,
@@ -115,8 +115,8 @@ def calc_alpha(
     `flow_gutter`: volumetric flow rate of gutter
     """
 
-    fill_radius = calc_fill_radius(width, inlet_width)
-    pinch_radius = calc_pinch_radius(height, width, inlet_width, epsilon)
+    fill_radius = _calc_fill_radius(width, inlet_width)
+    pinch_radius = _calc_pinch_radius(height, width, inlet_width, epsilon)
 
     const = 1 - (PI / 4)
     flow_ratio = 1 - (flow_gutter / flow_cont)
@@ -133,7 +133,7 @@ def calc_alpha(
 
 # -------------------------------------------------------------------------------------
 def test_calc_alpha() -> None:
-    """Test calc_alpha()"""
+    """Test _calc_alpha()"""
 
     height = 0.5
     width = 1.0
@@ -142,19 +142,19 @@ def test_calc_alpha() -> None:
     flow_cont = 1.0
     flow_gutter = 0.1
 
-    assert calc_alpha(
+    assert _calc_alpha(
         height, width, inlet_width, epsilon, flow_cont, flow_gutter
     ) == pytest.approx(0.808977)
 
     inlet_width = 2.0
 
-    assert calc_alpha(
+    assert _calc_alpha(
         height, width, inlet_width, epsilon, flow_cont, flow_gutter
     ) == pytest.approx(3.369487)
 
 
 # -------------------------------------------------------------------------------------
-def calc_fill_radius(width: float, inlet_width: float) -> float:
+def _calc_fill_radius(width: float, inlet_width: float) -> float:
     """
     Calculate the fill radius, which is the greater of the two channel widths
 
@@ -168,14 +168,14 @@ def calc_fill_radius(width: float, inlet_width: float) -> float:
 
 # -------------------------------------------------------------------------------------
 def test_calc_fill_radius() -> None:
-    """Test calc_fill_radius()"""
+    """Test _calc_fill_radius()"""
 
-    assert calc_fill_radius(3.0, 2.0) == 3.0
-    assert calc_fill_radius(1.7, 2.1) == 2.1
+    assert _calc_fill_radius(3.0, 2.0) == 3.0
+    assert _calc_fill_radius(1.7, 2.1) == 2.1
 
 
 # -------------------------------------------------------------------------------------
-def calc_pinch_radius(height: float, width: float, inlet_width: float, epsilon: float):
+def _calc_pinch_radius(height: float, width: float, inlet_width: float, epsilon: float):
     """
     Calculate the pinching radius
 
@@ -186,7 +186,7 @@ def calc_pinch_radius(height: float, width: float, inlet_width: float, epsilon: 
     `epsilon`: corner roundness
     """
 
-    pinch_width = calc_pinch_width(height, width, epsilon)
+    pinch_width = _calc_pinch_width(height, width, epsilon)
 
     pinch_radius = (
         width
@@ -200,7 +200,7 @@ def calc_pinch_radius(height: float, width: float, inlet_width: float, epsilon: 
 
 # -------------------------------------------------------------------------------------
 def test_calc_pinch_radius() -> None:
-    """Test calc_pinch_radius()"""
+    """Test _calc_pinch_radius()"""
 
     height = 3.0
     width = 7.0
@@ -220,12 +220,12 @@ def test_calc_pinch_radius() -> None:
     )
 
     assert (
-        calc_pinch_radius(height, width, inlet_width, epsilon) == expected_pinch_radius
+        _calc_pinch_radius(height, width, inlet_width, epsilon) == expected_pinch_radius
     )
 
 
 # -------------------------------------------------------------------------------------
-def calc_pinch_width(height: float, width: float, epsilon: float) -> float:
+def _calc_pinch_width(height: float, width: float, epsilon: float) -> float:
     """
     Calculate "pinch width" the width of dispersed phase at punching if corner weren't
     rounded
@@ -244,7 +244,7 @@ def calc_pinch_width(height: float, width: float, epsilon: float) -> float:
 
 # -------------------------------------------------------------------------------------
 def test_calc_pinch_width() -> None:
-    """Test calc_pinch_width()"""
+    """Test _calc_pinch_width()"""
 
     height = 3.0
     width = 7.0
@@ -252,12 +252,12 @@ def test_calc_pinch_width() -> None:
 
     expected_pinch_width = (height * width / (height + width)) - epsilon
 
-    assert calc_pinch_width(height, width, epsilon) == expected_pinch_width
-    assert calc_pinch_width(height, width, epsilon) == pytest.approx(0.1)
+    assert _calc_pinch_width(height, width, epsilon) == expected_pinch_width
+    assert _calc_pinch_width(height, width, epsilon) == pytest.approx(0.1)
 
 
 # -------------------------------------------------------------------------------------
-def calc_radius(
+def _calc_radius(
     height: float,
     width: float,
     inlet_widt: float,
@@ -280,7 +280,7 @@ def calc_radius(
     # Equation for R is a quadratic equation of the form
     # a*R^2 + b*R + c = 0
 
-    r_fill = calc_fill_radius(width, inlet_widt)
+    r_fill = _calc_fill_radius(width, inlet_widt)
 
     # Assign coefficients of quadratic equation
     coeff_a = 1
@@ -305,7 +305,7 @@ def calc_radius(
 
 # -------------------------------------------------------------------------------------
 def test_calc_radius() -> None:
-    """Test calc_radius()"""
+    """Test _calc_radius()"""
 
     height = 33 * 10**-6
     width = 100 * 10**-6
@@ -313,25 +313,25 @@ def test_calc_radius() -> None:
     continuous_flow = 3 * 10**-9
     gutter_flow = 0.1 * continuous_flow
 
-    fill_radius = calc_fill_radius(width, inlet_width)
+    fill_radius = _calc_fill_radius(width, inlet_width)
 
     assert (
-        calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0)
+        _calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0)
         == fill_radius
     )
 
     assert (
-        calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0.01)
+        _calc_radius(height, width, inlet_width, continuous_flow, gutter_flow, 0.01)
         > fill_radius
     )
 
-    assert calc_radius(
+    assert _calc_radius(
         height, width, inlet_width, continuous_flow, gutter_flow, 0.05
     ) == pytest.approx(0.004354597078)
 
 
 # -------------------------------------------------------------------------------------
-def calc_2r(
+def _calc_2r(
     height: float,
     width: float,
     inlet_width: float,
@@ -354,7 +354,7 @@ def calc_2r(
     `time`: time since begin of squeezing phase
     """
 
-    radius = calc_radius(height, width, inlet_width, flow_cont, flow_gutter, time)
+    radius = _calc_radius(height, width, inlet_width, flow_cont, flow_gutter, time)
 
     two_r = (
         radius
@@ -367,7 +367,7 @@ def calc_2r(
 
 # -------------------------------------------------------------------------------------
 def test_calc_2r() -> None:
-    """Test calc_2r()"""
+    """Test _calc_2r()"""
 
     height = 33 * 10**-6
     width = 100 * 10**-6
@@ -376,19 +376,19 @@ def test_calc_2r() -> None:
     gutter_flow = 0.1 * continuous_flow
     epsilon = 0.1 * width
 
-    fill_radius = calc_fill_radius(width, inlet_width)
+    fill_radius = _calc_fill_radius(width, inlet_width)
 
-    assert calc_2r(
+    assert _calc_2r(
         height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0
     ) == pytest.approx(fill_radius + epsilon)
 
     assert (
-        calc_2r(
+        _calc_2r(
             height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0.0001
         )
         < fill_radius + epsilon
     )
 
-    assert calc_2r(
+    assert _calc_2r(
         height, width, inlet_width, epsilon, continuous_flow, gutter_flow, 0.00001
     ) == pytest.approx(0.0001034660)

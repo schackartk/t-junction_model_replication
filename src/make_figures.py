@@ -15,7 +15,7 @@ import plotnine as p9
 
 from module.filling import calc_incorrect_nondim_fill_volume, calc_nondim_fill_volume
 from module.formatter_class import CustomHelpFormatter
-from module.squeezing import calc_2r, calc_alpha, calc_nondim_squeeze_volume
+from module.squeezing import _calc_2r, _calc_alpha, calc_nondim_squeeze_volume
 
 
 class Args(NamedTuple):
@@ -144,7 +144,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     alpha_df["width_ratio"] = alpha_df["width_ratio"].astype(str)
 
     alpha_df["alpha"] = alpha_df.apply(
-        lambda row: calc_alpha(
+        lambda row: _calc_alpha(
             row.height,
             row.width,
             row.inlet_width,
@@ -316,7 +316,7 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
     df["width_ratio"] = df["width_ratio"].astype(str)
     df["gutter_flow"] = 0.1 * df["continuous_flow"]
     df["2r"] = df.apply(
-        lambda row: calc_2r(
+        lambda row: _calc_2r(
             row.height,
             row.width,
             row.inlet_width,
