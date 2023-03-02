@@ -16,29 +16,37 @@ These modules are ideal for reuse of the developed mathematical model. While `ma
 
 ## `make_figures.py`
 
-This script can be executed to generate the figures which replicate those in the original work.
+The script `src/make_figures.py` can be executed to generate the figures which replicate those in the original work.
 
 This script imports several functions from the modules within `utils/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
 
+Help for this script can be accessed with `-h|--help`:
+
+```
+$ src/make_figures.py -h
+usage: make_figures.py [-h] [-o DIR]
+
+Create figures which replicate those in the original work using the modules developed in this project.
+
+options:
+  -h, --help         show this help message and exit
+  -o, --out-dir DIR  Output directory (default: figures/)
+```
+
 By default all figures are output to `figures/`. However, this can be changed using the optional `-o|--out-dir` flag.
 
-To generate the figures and output them to `figures/` (the default), run:
+For example, to generate the figures and output them to `new_figures/`, run:
 
 ```
-$ src/make_figures.py
+$ src/make_figures.py -o new_figures/
 Generating figures...
 Saving figures...
-Done. See figures in "figures".
+Done. See figures in "new_figures".
 ```
 
-This will create five figures in the output directory. The names of the figures correspond to the figure numbers in the original work.
+This will create five figures in the output directory:
 
 ```sh
-$ tree figures/
-figures/
-├── fig_2a.png             # Figure 2a using correct eqn
-├── fig_2a_incorrect.png   # Figure 2a as shown in original work
-├── fig_2b.png             # Figure 2b as shown in original work
-├── fig_3.png              # Figure 3 as shown in original work
-└── fig_6.png              # Figure 6 as shown in original work
-``
+$ ls new_figures/
+fig_2a.png  fig_2a_incorrect.png  fig_2b.png  fig_3.png  fig_6.png
+```
