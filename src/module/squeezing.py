@@ -10,36 +10,6 @@ from math import pi as PI
 
 
 # -------------------------------------------------------------------------------------
-def calc_squeezing_volume(
-    height: float,
-    width: float,
-    inlet_width: float,
-    epsilon: float,
-    flow_cont: float,
-    flow_disp: float,
-    flow_gutter: float,
-) -> float:
-    """
-    Calculate the volume of the droplet due to squeezing phase
-
-    Arguments:
-    `height`: channel height
-    `width`: channel width
-    `inlet_width`: inlet channel width
-    `epsilon`: corner roundness
-    `flow_cont`: volumetric flow rate of continuous phase
-    `flow_disp`: volumetric flow rate of dispersed phase
-    `flow_gutter`: volumetric flow rate of gutter
-    """
-
-    alpha = _calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
-
-    squeezing_volume = alpha * height * (width**2) * (flow_disp / flow_cont)
-
-    return squeezing_volume
-
-
-# -------------------------------------------------------------------------------------
 def calc_nondim_squeeze_volume(
     height: float,
     width: float,
@@ -69,6 +39,36 @@ def calc_nondim_squeeze_volume(
     nondim_volume = squeeze_volume / (height * (width**2))
 
     return nondim_volume
+
+
+# -------------------------------------------------------------------------------------
+def calc_squeezing_volume(
+    height: float,
+    width: float,
+    inlet_width: float,
+    epsilon: float,
+    flow_cont: float,
+    flow_disp: float,
+    flow_gutter: float,
+) -> float:
+    """
+    Calculate the volume of the droplet due to squeezing phase
+
+    Arguments:
+    `height`: channel height
+    `width`: channel width
+    `inlet_width`: inlet channel width
+    `epsilon`: corner roundness
+    `flow_cont`: volumetric flow rate of continuous phase
+    `flow_disp`: volumetric flow rate of dispersed phase
+    `flow_gutter`: volumetric flow rate of gutter
+    """
+
+    alpha = _calc_alpha(height, width, inlet_width, epsilon, flow_cont, flow_gutter)
+
+    squeezing_volume = alpha * height * (width**2) * (flow_disp / flow_cont)
+
+    return squeezing_volume
 
 
 # -------------------------------------------------------------------------------------

@@ -14,30 +14,6 @@ from module import filling
 
 
 # -------------------------------------------------------------------------------------
-def test_calc_gross_volume() -> None:
-    """Test _calc_gross_volume()"""
-
-    assert filling._calc_gross_volume(3.0, 7.0) == pytest.approx(21.0)
-    assert filling._calc_gross_volume(4.0, 5.0) == pytest.approx(20.0)
-
-
-# -------------------------------------------------------------------------------------
-def test_calc_gutter_area() -> None:
-    """Test _calc_gutter_area()"""
-
-    assert filling._calc_gutter_area(1) == pytest.approx(0.25 * (1 - PI / 4))
-    assert filling._calc_gutter_area(2) == pytest.approx(1 - PI / 4)
-
-
-# -------------------------------------------------------------------------------------
-def test_calc_gutter_volume() -> None:
-    """Test _calc_gutter_volume()"""
-
-    assert filling._calc_gutter_volume(1, 4) == pytest.approx(1 - PI / 4)
-    assert filling._calc_gutter_volume(2, 8) == pytest.approx(8 - 2 * PI)
-
-
-# -------------------------------------------------------------------------------------
 def test_calc_circle_fraction_area() -> None:
     """Test _calc_circle_fraction_area()"""
 
@@ -101,6 +77,30 @@ def test_calc_fill_volume() -> None:
 
 
 # -------------------------------------------------------------------------------------
+def test_calc_gross_volume() -> None:
+    """Test _calc_gross_volume()"""
+
+    assert filling._calc_gross_volume(3.0, 7.0) == pytest.approx(21.0)
+    assert filling._calc_gross_volume(4.0, 5.0) == pytest.approx(20.0)
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_gutter_area() -> None:
+    """Test _calc_gutter_area()"""
+
+    assert filling._calc_gutter_area(1) == pytest.approx(0.25 * (1 - PI / 4))
+    assert filling._calc_gutter_area(2) == pytest.approx(1 - PI / 4)
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_gutter_volume() -> None:
+    """Test _calc_gutter_volume()"""
+
+    assert filling._calc_gutter_volume(1, 4) == pytest.approx(1 - PI / 4)
+    assert filling._calc_gutter_volume(2, 8) == pytest.approx(8 - 2 * PI)
+
+
+# -------------------------------------------------------------------------------------
 def test_calc_incorrect_fill_volume() -> None:
     """Test calc_incorrect_fill_volume()"""
 
@@ -124,6 +124,38 @@ def test_calc_incorrect_fill_volume() -> None:
     assert filling.calc_fill_volume(
         height, width, width * 2.0
     ) < filling.calc_incorrect_fill_volume(height, width, width * 2.0)
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_incorrect_nondim_fill_volume() -> None:
+    """Test calc_incorrect_nondim_fill_volume()"""
+
+    height = 10.0
+    width = 20.0
+
+    # returns None if any arguments are zero
+    assert filling.calc_incorrect_nondim_fill_volume(0.0, 1.0, 1.0) is None
+    assert filling.calc_incorrect_nondim_fill_volume(1.0, 0.0, 1.0) is None
+    assert filling.calc_incorrect_nondim_fill_volume(1.0, 1.0, 0.0) is None
+
+    # Functions are same if inlet_width <= width
+    assert filling.calc_nondim_fill_volume(
+        height, width, width - 2.0
+    ) == filling.calc_incorrect_nondim_fill_volume(height, width, width - 2.0)
+    assert filling.calc_nondim_fill_volume(
+        height, width, width
+    ) == filling.calc_incorrect_nondim_fill_volume(height, width, width)
+
+    # Functions are different if inlet_width > width
+    assert filling.calc_nondim_fill_volume(
+        height, width, width * 2.0
+    ) != filling.calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
+
+    # Incorrect function gives volume greater than should to be
+    correct = filling.calc_nondim_fill_volume(height, width, width * 2.0)
+    incorrect = filling.calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
+    assert correct is not None and incorrect is not None  # Must check before using "<"
+    assert correct < incorrect
 
 
 # -------------------------------------------------------------------------------------
@@ -173,35 +205,3 @@ def test_calc_nondim_fill_volume() -> None:
     assert filling.calc_nondim_fill_volume(0.0, 1.0, 1.0) is None
     assert filling.calc_nondim_fill_volume(1.0, 0.0, 1.0) is None
     assert filling.calc_nondim_fill_volume(1.0, 1.0, 0.0) is None
-
-
-# -------------------------------------------------------------------------------------
-def test_calc_incorrect_nondim_fill_volume() -> None:
-    """Test calc_incorrect_nondim_fill_volume()"""
-
-    height = 10.0
-    width = 20.0
-
-    # returns None if any arguments are zero
-    assert filling.calc_incorrect_nondim_fill_volume(0.0, 1.0, 1.0) is None
-    assert filling.calc_incorrect_nondim_fill_volume(1.0, 0.0, 1.0) is None
-    assert filling.calc_incorrect_nondim_fill_volume(1.0, 1.0, 0.0) is None
-
-    # Functions are same if inlet_width <= width
-    assert filling.calc_nondim_fill_volume(
-        height, width, width - 2.0
-    ) == filling.calc_incorrect_nondim_fill_volume(height, width, width - 2.0)
-    assert filling.calc_nondim_fill_volume(
-        height, width, width
-    ) == filling.calc_incorrect_nondim_fill_volume(height, width, width)
-
-    # Functions are different if inlet_width > width
-    assert filling.calc_nondim_fill_volume(
-        height, width, width * 2.0
-    ) != filling.calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
-
-    # Incorrect function gives volume greater than should to be
-    correct = filling.calc_nondim_fill_volume(height, width, width * 2.0)
-    incorrect = filling.calc_incorrect_nondim_fill_volume(height, width, width * 2.0)
-    assert correct is not None and incorrect is not None  # Must check before using "<"
-    assert correct < incorrect

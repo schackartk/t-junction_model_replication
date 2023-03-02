@@ -12,29 +12,6 @@ from module import squeezing
 
 
 # -------------------------------------------------------------------------------------
-def test_calc_nondim_squeeze_volume() -> None:
-    """Test calc_nondim_squeeze_volume()"""
-
-    height = 1.0
-    width = 7.0
-    inlet_width = 5.0
-    epsilon = 0.1
-    flow_cont = 6.0
-    flow_gutter = 0.5
-    flow_disp = 3.0
-
-    alpha = squeezing._calc_alpha(
-        height, width, inlet_width, epsilon, flow_cont, flow_gutter
-    )
-
-    expected_nondim_vol = alpha * flow_disp / flow_cont
-
-    assert squeezing.calc_nondim_squeeze_volume(
-        height, width, inlet_width, epsilon, flow_cont, flow_disp, flow_gutter
-    ) == pytest.approx(expected_nondim_vol)
-
-
-# -------------------------------------------------------------------------------------
 def test_calc_alpha() -> None:
     """Test _calc_alpha()"""
 
@@ -62,6 +39,29 @@ def test_calc_fill_radius() -> None:
 
     assert squeezing._calc_fill_radius(3.0, 2.0) == 3.0
     assert squeezing._calc_fill_radius(1.7, 2.1) == 2.1
+
+
+# -------------------------------------------------------------------------------------
+def test_calc_nondim_squeeze_volume() -> None:
+    """Test calc_nondim_squeeze_volume()"""
+
+    height = 1.0
+    width = 7.0
+    inlet_width = 5.0
+    epsilon = 0.1
+    flow_cont = 6.0
+    flow_gutter = 0.5
+    flow_disp = 3.0
+
+    alpha = squeezing._calc_alpha(
+        height, width, inlet_width, epsilon, flow_cont, flow_gutter
+    )
+
+    expected_nondim_vol = alpha * flow_disp / flow_cont
+
+    assert squeezing.calc_nondim_squeeze_volume(
+        height, width, inlet_width, epsilon, flow_cont, flow_disp, flow_gutter
+    ) == pytest.approx(expected_nondim_vol)
 
 
 # -------------------------------------------------------------------------------------

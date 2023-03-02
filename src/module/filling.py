@@ -11,63 +11,6 @@ from typing import Optional
 
 
 # -------------------------------------------------------------------------------------
-def _calc_gross_volume(height: float, area: float) -> float:
-    """
-    Calculate the gross volume of the droplet (before subtracting gutters)
-
-    Arguments:
-    `height`: channel height
-    `area`: droplet area
-    """
-
-    return height * area
-
-
-# -------------------------------------------------------------------------------------
-def _calc_gutter_area(height: float) -> float:
-    """
-    Calculate the cross-sectional area of a gutter
-
-    Arguments:
-    `height`: Channel height
-    """
-
-    corner_area = (height / 2) ** 2
-    droplet_area = 0.25 * PI * (height / 2) ** 2
-    gutter_area = corner_area - droplet_area
-
-    return gutter_area
-
-
-# -------------------------------------------------------------------------------------
-def _calc_gutter_volume(height: float, gutter_length: float) -> float:
-    """
-    Calculate the volume of an individual gutter
-
-    Arguments:
-    `gutter_area`: cross sectional area of gutter
-    `gutter_length`: length of gutter (droplet perimeter)
-    """
-
-    gutter_area = _calc_gutter_area(height)
-
-    return gutter_area * gutter_length
-
-
-# -------------------------------------------------------------------------------------
-def _calc_circle_fraction_area(radius: float, portion: float) -> float:
-    """
-    Calculate a fraction of the area of a circle
-
-    Arguments:
-    `diameter`: circle radius
-    `portion`: Portion of circle area as decimal
-    """
-
-    return portion * PI * radius**2
-
-
-# -------------------------------------------------------------------------------------
 def calc_fill_volume(height: float, width: float, inlet_width: float) -> float:
     """
     Calculate the filling volume
@@ -172,6 +115,30 @@ def calc_incorrect_fill_volume(
 
 
 # -------------------------------------------------------------------------------------
+def calc_incorrect_nondim_fill_volume(
+    height: float, width: float, inlet_width: float
+) -> Optional[float]:
+    """
+    Calculate the non-dimensionalized fill volume using the incorrect equation
+    in order to reproduce figure 2a exactly
+
+    Arguments:
+    `height`: channel height
+    `width`: channel width
+    `inlet_width`: inlet channel width
+    """
+
+    if 0 in [height, width, inlet_width]:
+        return None
+
+    fill_volume = calc_incorrect_fill_volume(height, width, inlet_width)
+
+    non_dim_volume = fill_volume / (height * width**2)
+
+    return non_dim_volume
+
+
+# -------------------------------------------------------------------------------------
 def calc_nondim_fill_volume(
     height: float, width: float, inlet_width: float
 ) -> Optional[float]:
@@ -195,24 +162,57 @@ def calc_nondim_fill_volume(
 
 
 # -------------------------------------------------------------------------------------
-def calc_incorrect_nondim_fill_volume(
-    height: float, width: float, inlet_width: float
-) -> Optional[float]:
+def _calc_circle_fraction_area(radius: float, portion: float) -> float:
     """
-    Calculate the non-dimensionalized fill volume using the incorrect equation
-    in order to reproduce figure 2a exactly
+    Calculate a fraction of the area of a circle
+
+    Arguments:
+    `diameter`: circle radius
+    `portion`: Portion of circle area as decimal
+    """
+
+    return portion * PI * radius**2
+
+
+# -------------------------------------------------------------------------------------
+def _calc_gross_volume(height: float, area: float) -> float:
+    """
+    Calculate the gross volume of the droplet (before subtracting gutters)
 
     Arguments:
     `height`: channel height
-    `width`: channel width
-    `inlet_width`: inlet channel width
+    `area`: droplet area
     """
 
-    if 0 in [height, width, inlet_width]:
-        return None
+    return height * area
 
-    fill_volume = calc_incorrect_fill_volume(height, width, inlet_width)
 
-    non_dim_volume = fill_volume / (height * width**2)
+# -------------------------------------------------------------------------------------
+def _calc_gutter_area(height: float) -> float:
+    """
+    Calculate the cross-sectional area of a gutter
 
-    return non_dim_volume
+    Arguments:
+    `height`: Channel height
+    """
+
+    corner_area = (height / 2) ** 2
+    droplet_area = 0.25 * PI * (height / 2) ** 2
+    gutter_area = corner_area - droplet_area
+
+    return gutter_area
+
+
+# -------------------------------------------------------------------------------------
+def _calc_gutter_volume(height: float, gutter_length: float) -> float:
+    """
+    Calculate the volume of an individual gutter
+
+    Arguments:
+    `gutter_area`: cross sectional area of gutter
+    `gutter_length`: length of gutter (droplet perimeter)
+    """
+
+    gutter_area = _calc_gutter_area(height)
+
+    return gutter_area * gutter_length
