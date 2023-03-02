@@ -4,11 +4,11 @@ This directory contains code used for replicating the figures modelling the form
 
 ```sh
 .
-├── utils/           # Modules and utilities
+├── module/           # Modules and utilities
 └── make_figures.py  # Script for replicating figures
 ```
 
-## `utils/`
+## `module/`
 
 This directory contains the utilities used in this project. The majority of this constists of Python modules.
 
@@ -18,7 +18,7 @@ These modules are ideal for reuse of the developed mathematical model. While `ma
 
 The script `make_figures.py` can be executed to generate the figures which replicate those in the original work.
 
-This script imports several functions from the modules within `utils/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
+This script imports several functions from the modules within `module/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
 
 Help for this script can be accessed with `-h|--help`:
 

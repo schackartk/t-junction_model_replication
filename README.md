@@ -18,7 +18,7 @@ This reposity has two main parts: (1) python modules and (2) a script for figure
 
 ## Modules
 
-This repository contains Python modules which capture the model logic presented in van Steijn *et al.,*. Those modules are located in [src/utils/](./src/utils/). These modules are provided for enhanced generalizability; they can be used to model/predict the size of bubbles/droplets formed in microfluidic T-juctions by importing them into a Python script and using the provided functions.
+This repository contains Python modules which capture the model logic presented in van Steijn *et al.,*. Those modules are located in [src/module/](./src/module/). These modules are provided for enhanced generalizability; they can be used to model/predict the size of bubbles/droplets formed in microfluidic T-juctions by importing them into a Python script and using the provided functions.
 
 ## Figure replication
 
