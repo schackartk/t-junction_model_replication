@@ -20,7 +20,7 @@ def calc_nondim_squeeze_volume(
     flow_gutter: float,
 ) -> float:
     """
-    Calculate the volume of the droplet due to squeezing phase
+    Calculate the non-dimensionalized volume of the droplet due to squeezing phase
 
     Arguments:
     `height`: channel height
