@@ -8,7 +8,10 @@ This directory contains modules used to mode T-junction droplet/bubble formation
 ├── center.sh              # Output formatting for Make targets
 ├── filling.py             # Filling phase module
 ├── formatter_class.py     # Argparse help formatter
-└── squeezing.py           # Squeezing phase module
+├── squeezing.py           # Squeezing phase module
+└── tests/                 # Module unit tests
+    ├── test_filling.py    # Filling module tests
+    └── test_squeezing.py  # Squeezing module tests
 ```
 # Files
 
@@ -42,3 +45,7 @@ Custom Python argparse help formatter class.
 Module that contains functions that model the squeezing phase of droplet/bubble formation.
 
 When using the functions in this module, use consistent units to ensure consistent and accurate outputs. We recommend using only SI units (*e.g.* m, L; not µm, mL, *etc.*) to avoid inconsistencies.
+
+# `tests/`
+
+The tests directory contains Python files containing the unit tests for the functions defined in the modules.
