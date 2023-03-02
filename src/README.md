@@ -35,7 +35,7 @@ options:
 
 By default all figures are output to `out/`. However, this can be changed using the optional `-o|--out-dir` flag.
 
-For example, to generate the figures and output them to `new_figures/`, run:
+For example, to generate the figures and output them to `../new_figures/`, run:
 
 ```
 $ ./make_figures.py -o ../new_figures/
