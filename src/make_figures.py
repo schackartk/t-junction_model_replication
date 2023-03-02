@@ -29,7 +29,11 @@ def get_args() -> Args:
     """Get command-line arguments"""
 
     parser = argparse.ArgumentParser(
-        description="Generate figures from paper", formatter_class=CustomHelpFormatter
+        description=(
+            "Create figures which replicate those in the original work"
+            " using the modules developed in this project."
+        ),
+        formatter_class=CustomHelpFormatter,
     )
 
     parser.add_argument(
