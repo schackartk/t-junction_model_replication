@@ -10,7 +10,19 @@
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/psf/black"><img alt="MIT License" src="https://img.shields.io/github/license/schackartk/t-junction_model_replication"></a>
 
-This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.* 2010 for submission to ReScience C.
+This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.,* 2010 for submission to ReScience C.
+
+# Overview
+
+This reposity has two main parts: (1) python modules and (2) a script for figure replication. This section describes those parts.
+
+## Modules
+
+This repository contains Python modules which capture the model logic presented in van Steijn *et al.,*. Those modules are located in [src/utils/](./src/utils/). These modules are provided for enhanced generalizability; they can be used to model/predict the size of bubbles/droplets formed in microfluidic T-juctions by importing them into a Python script and using the provided functions.
+
+## Figure replication
+
+To directly replicate the figures in van Steijn *et al.,*, a script is provided that uses all the necessary assumptions and geometries. The script [src/make_figures.py](src/make_figures.py) is directly executable. By providing this script, one can replicate the figures without working directly with the underlying modules. More details on this are found in the section [Replicating results](#replicating-results).
 
 # Repository Structure
 
@@ -62,7 +74,7 @@ We provide two options for installing the dependencies of this project, `conda` 
 
 ### `conda`
 
-If you have conda installed, you can create a conda environment using the provided `environment.yml` by running:
+If you have conda installed, you can create a conda environment using the provided [environment.yml](environment.yml) by running:
 
 ```
 $ conda env create -f environment.yml -p ./env
@@ -108,7 +120,7 @@ And activate it:
 $ source ./env/bin/activate
 ```
 
-Then pip can be used to install the requirements (preferably in a virtual environment as described above):
+Then pip can be used to install the requirements from [requirements.txt](requirements.txt) (preferably in a virtual environment as described above):
 
 ```
 $ pip install -r requirements.txt
