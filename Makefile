@@ -4,18 +4,19 @@ test:
 	@src/module/center.sh "Running Pytest"
 	coverage run -m pytest -v \
 	src/module/*.py \
+	src/module/tests/ \
 	src/*.py \
 	tests/
 	@echo ""
 	@src/module/center.sh "Assessing Test Coverage"
 	coverage report --skip-empty --omit src/make_figures.py,src/module/formatter_class.py,tests/*.py
 	@src/module/center.sh "Running Pylint"
-	pylint --rcfile setup.cfg --exit-zero src/module/*.py src/*.py tests/*.py
+	pylint --rcfile setup.cfg --exit-zero src/module/*.py src/module/tests/*.py src/*.py tests/*.py
 	@src/module/center.sh "Running Flake8"
-	flake8 --exit-zero src/module/*.py src/*.py tests/*.py
+	flake8 --exit-zero src/module/*.py src/module/tests/*.py src/*.py tests/*.py
 	@echo ""
 	@src/module/center.sh "Running MyPy"
-	mypy src/module/*.py src/*.py tests/*.py
+	mypy src/module/*.py src/module/tests/*.py src/*.py tests/*.py
 	@echo ""
 	@src/module/center.sh "Done, see above for test results!"
 
@@ -28,6 +29,7 @@ badges:
 	coverage run -m pytest -v \
 	--junitxml=./.reports/tests/tests.xml \
 	src/module/*.py \
+	src/module/tests/ \
 	src/*.py \
 	tests/
 	genbadge tests \
@@ -51,7 +53,7 @@ badges:
 	-o ./.reports/coverage/coverage_modules_badge.svg
 	@src/module/center.sh "Generating Flake8 Badge"
 	flake8 \
-	src/module/*.py src/*.py tests/*.py \
+	src/module/*.py src/module/tests/*.py src/*.py tests/*.py \
 	--exit-zero \
 	--statistics \
 	--tee --output-file \
