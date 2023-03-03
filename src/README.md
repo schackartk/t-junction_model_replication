@@ -5,6 +5,7 @@ This directory contains code used for replicating the figures modelling the form
 ```sh
 .
 ├── t_junction_model/           # Python modules
+├── tests/                      # Unit and integration tests
 ├── utils/                      # Project utilities
 └── make_figures.py             # Script for replicating figures
 ```
@@ -14,6 +15,10 @@ This directory contains code used for replicating the figures modelling the form
 This directory contains the Python modules used in this project.
 
 These modules are ideal for reuse of the developed mathematical model. While `make_figures.py` strictly regenerates the figures in the original work, these modules can be used more generally to apply the model.
+
+## `tests/`
+
+This directory contains the unit and integration tests for the source code in this project.
 
 ## `utils/`
 

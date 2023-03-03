@@ -38,8 +38,7 @@ The following is a brief overview of the contents of this respository:
 ├── figures/         # Replicated figures
 ├── requirements.txt # pip requirements
 ├── setup.cfg        # Code check configurations
-├── src/             # Code
-└── tests/           # Integration tests
+└── src/             # Code
 ```
 
 # Systems

@@ -5,33 +5,30 @@ test:
 	coverage run -m pytest -v \
 	src/t_junction_model/*.py \
 	src/utils/*.py \
-	src/t_junction_model/tests/ \
-	src/*.py \
-	tests/
+	src/tests/ \
+	src/*.py
 	@echo ""
 	@src/utils/center.sh "Assessing Test Coverage"
 	coverage report --skip-empty \
-	--omit src/make_figures.py,src/utils/formatter_class.py,tests/*.py
+	--omit src/make_figures.py,src/utils/formatter_class.py,src/tests/test_make_figures.py
 	@src/utils/center.sh "Running Pylint"
 	pylint --rcfile setup.cfg --exit-zero \
 	src/t_junction_model/*.py \
 	src/utils/*.py \
-	src/t_junction_model/tests/*.py \
-	src/*.py tests/*.py
+	src/*.py \
+	src/tests/*.py
 	@src/utils/center.sh "Running Flake8"
 	flake8 --exit-zero \
 	src/t_junction_model/*.py \
 	src/utils/*.py \
-	src/t_junction_model/tests/*.py \
 	src/*.py \
-	tests/*.py
+	src/tests/*.py
 	@echo ""
 	@src/utils/center.sh "Running MyPy"
 	mypy src/t_junction_model/*.py \
 	src/utils/*.py \
-	src/t_junction_model/tests/*.py \
 	src/*.py \
-	tests/*.py
+	src/tests/*.py
 	@echo ""
 	@src/utils/center.sh "Done, see above for test results!"
 
@@ -45,9 +42,8 @@ badges:
 	--junitxml=./.reports/tests/tests.xml \
 	src/t_junction_model/*.py \
 	src/utils/*.py \
-	src/t_junction_model/tests/ \
 	src/*.py \
-	tests/
+	src/tests/
 	genbadge tests \
 	-i ./.reports/tests/tests.xml \
 	-o ./.reports/tests/tests_badge.svg
@@ -61,7 +57,7 @@ badges:
 	-o ./.reports/coverage/coverage_all_badge.svg
 	coverage xml \
 	--skip-empty \
-	--omit src/make_figures.py,src/utils/formatter_class.py,tests/*.py \
+	--omit src/make_figures.py,src/utils/formatter_class.py,src/tests/*.py \
 	-o ./.reports/coverage/coverage_t_junction_models.xml
 	genbadge coverage \
 	-n "t_junction_model coverage" \
@@ -70,10 +66,9 @@ badges:
 	@src/utils/center.sh "Generating Flake8 Badge"
 	flake8 \
 	src/t_junction_model/*.py \
-	src/t_junction_model/tests/*.py \
 	src/utils/*.py \
 	src/*.py \
-	tests/*.py \
+	src/tests/*.py \
 	--exit-zero \
 	--statistics \
 	--tee --output-file \
