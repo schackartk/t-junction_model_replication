@@ -1,14 +1,14 @@
 # [Re] Predictive model for the size of bubbles and droplets created in microfluidic T-junctions
 
-![Tests Status](./.reports/tests/tests_badge.svg?dummy=8484744)
-![Total Coverage](./.reports/coverage/coverage_all_badge.svg?dummy=8484744)
-![Module Coverage](./.reports/coverage/coverage_modules_badge.svg?dummy=8484744)
 [![Python 3.11](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/downloads/release/python-360/)
+<a href="https://github.com/psf/black"><img alt="MIT License" src="https://img.shields.io/github/license/schackartk/t-junction_model_replication"></a>
+![Tests Status](./.reports/tests/tests_badge.svg?dummy=8484744)
+![Module Coverage](./.reports/coverage/coverage_modules_badge.svg?dummy=8484744)
+![Total Coverage](./.reports/coverage/coverage_all_badge.svg?dummy=8484744)
 ![Flake8](./.reports/flake8/flake8_badge.svg?dummy=8484744)
 [![linting: pylint](https://img.shields.io/badge/linting-pylint-yellowgreen)](https://github.com/PyCQA/pylint)
 ![mypy](https://img.shields.io/badge/%20type_checker-mypy-%231674b1?style=flat)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
-<a href="https://github.com/psf/black"><img alt="MIT License" src="https://img.shields.io/github/license/schackartk/t-junction_model_replication"></a>
 
 This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.,* 2010 for submission to ReScience C.
 
