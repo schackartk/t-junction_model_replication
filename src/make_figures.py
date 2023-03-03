@@ -17,7 +17,8 @@ from t_junction_model.filling import (
     calc_incorrect_nondim_fill_volume,
     calc_nondim_fill_volume,
 )
-from t_junction_model.squeezing import _calc_2r, _calc_alpha, calc_nondim_squeeze_volume
+from t_junction_model.squeezing import _calc_2r, _calc_alpha
+from t_junction_model.total import calc_nondim_total_volume
 from utils.formatter_class import CustomHelpFormatter
 
 
@@ -239,12 +240,8 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
 
     vol_df = pd.concat([vol_df, liq_liq_df])
 
-    vol_df["fill_vol"] = vol_df.apply(
-        lambda row: calc_nondim_fill_volume(row.height, row.width, row.inlet_width),
-        axis=1,
-    )
-    vol_df["squeeze_vol"] = vol_df.apply(
-        lambda row: calc_nondim_squeeze_volume(
+    vol_df["vol"] = vol_df.apply(
+        lambda row: calc_nondim_total_volume(
             row.height,
             row.width,
             row.inlet_width,
@@ -255,7 +252,6 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         ),
         axis=1,
     )
-    vol_df["vol"] = vol_df["fill_vol"] + vol_df["squeeze_vol"]
 
     y_max = 25
     vol_df = vol_df[vol_df["vol"] <= y_max]
