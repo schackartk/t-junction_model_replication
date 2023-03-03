@@ -8,7 +8,7 @@ from math import pi as PI
 
 import pytest
 
-from module import filling
+from t_junction_model import filling
 
 # pylint: disable=protected-access
 

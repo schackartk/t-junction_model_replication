@@ -13,9 +13,12 @@ from typing import Callable, NamedTuple
 import pandas as pd
 import plotnine as p9
 
-from module.filling import calc_incorrect_nondim_fill_volume, calc_nondim_fill_volume
-from module.formatter_class import CustomHelpFormatter
-from module.squeezing import _calc_2r, _calc_alpha, calc_nondim_squeeze_volume
+from t_junction_model.filling import (
+    calc_incorrect_nondim_fill_volume,
+    calc_nondim_fill_volume,
+)
+from t_junction_model.squeezing import _calc_2r, _calc_alpha, calc_nondim_squeeze_volume
+from utils.formatter_class import CustomHelpFormatter
 
 
 class Args(NamedTuple):

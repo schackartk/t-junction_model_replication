@@ -4,15 +4,20 @@ This directory contains code used for replicating the figures modelling the form
 
 ```sh
 .
-├── module/           # Modules and utilities
-└── make_figures.py  # Script for replicating figures
+├── t_junction_model/           # Python modules
+├── utils/                      # Project utilities
+└── make_figures.py             # Script for replicating figures
 ```
 
-## `module/`
+## `t_junction_model/`
 
-This directory contains the utilities used in this project. The majority of this constists of Python modules.
+This directory contains the Python modules used in this project.
 
 These modules are ideal for reuse of the developed mathematical model. While `make_figures.py` strictly regenerates the figures in the original work, these modules can be used more generally to apply the model.
+
+## `utils/`
+
+This directory contains utilities used in this project that are not directly related to modeling T-junction droplet/bubble formation.
 
 ## `make_figures.py`
 

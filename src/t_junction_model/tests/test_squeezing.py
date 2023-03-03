@@ -6,7 +6,7 @@ Author: Kenneth Schackart <schackartk1@gmail.com>
 import math
 import pytest
 
-from module import squeezing
+from t_junction_model import squeezing
 
 # pylint: disable=protected-access
 
