@@ -58,11 +58,11 @@ badges:
 	coverage xml \
 	--skip-empty \
 	--omit src/make_figures.py,src/utils/formatter_class.py,src/tests/*.py \
-	-o ./.reports/coverage/coverage_t_junction_models.xml
+	-o ./.reports/coverage/coverage_modules.xml
 	genbadge coverage \
-	-n "t_junction_model coverage" \
-	-i ./.reports/coverage/coverage_t_junction_models.xml \
-	-o ./.reports/coverage/coverage_t_junction_models_badge.svg
+	-n "modules coverage" \
+	-i ./.reports/coverage/coverage_modules.xml \
+	-o ./.reports/coverage/coverage_modules_badge.svg
 	@src/utils/center.sh "Generating Flake8 Badge"
 	flake8 \
 	src/t_junction_model/*.py \
