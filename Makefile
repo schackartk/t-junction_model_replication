@@ -69,7 +69,11 @@ badges:
 	-o ./.reports/coverage/coverage_t_junction_models_badge.svg
 	@src/utils/center.sh "Generating Flake8 Badge"
 	flake8 \
-	src/t_junction_model/*.py src/t_junction_model/tests/*.py src/utils/*.py src/*.py tests/*.py \
+	src/t_junction_model/*.py \
+	src/t_junction_model/tests/*.py \
+	src/utils/*.py \
+	src/*.py \
+	tests/*.py \
 	--exit-zero \
 	--statistics \
 	--tee --output-file \
