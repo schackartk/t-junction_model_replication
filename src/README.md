@@ -1,4 +1,4 @@
-# T-Junction Code
+# Source code
 
 This directory contains code used for replicating the figures modelling the formation of droplets and bubbles in microfuilic T-junctions.
 
