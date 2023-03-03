@@ -138,6 +138,11 @@ connected to an Ubuntu\supercite{canonical_ltd_ubuntu_2020} v20.04 kernel.
 
 \subsection{Python modules}
 
+Three Python modules were developed which capture the model logic allowing for the prediction of
+bubble/droplet size prediction. The modules are divided into the filling phase and squeezing phase,
+and a third module can be used to calculate the total predicted volume by combining the contributions
+of those two phases.
+
 \subsubsection{Filling phase}
 
 While dimensionless fill volume could be calculated directly using equation \eqref{nondim_fill_vol},
@@ -361,7 +366,7 @@ was mapped to dispersed fluid type (liquid droplets vs. gas bubbles).
 
 To maintain quality of the code that was developed, several precautions were taken.
 
-As previously mentioned, the functions developed in the filling and squeezing modules
+As previously mentioned, the functions developed in the modules
 have associated unit tests. For the filling module, unit tests ensure that the verbose
 geometric calculations match the simplified equations in the original work.
 Pytest\supercite{krekel_pytest_2004} v7.2.0 testing framework was used for all unit tests.
@@ -384,10 +389,11 @@ unit tests and static code checks with a single command.
 
 \subsection{Python modules}
 
-Two Python modules were developed implementing the model presented in the original work.
+Three Python modules were developed implementing the model presented in the original work.
 
 The filling module consists of 8 functions and 8 unit tests. The squeezing module consists
-of 8 functions and 7 unit tests. Both modules have 100\% test coverage as evaluated by
+of 8 functions and 7 unit tests. Finally, the module combining the two phases of droplet formation
+consists of  2 functions and 2 unit tests. All modules have 100\% test coverage as evaluated by
 coveragepy. All code passes static checking by Pylint, Flake8, and mypy.
 
 \subsection{Replication of figures}
