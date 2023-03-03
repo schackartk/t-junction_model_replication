@@ -8,6 +8,8 @@ Author: Kenneth Schackart <schackartk1@gmail.com>
 import math
 from math import pi as PI
 
+from typing import Optional
+
 
 # -------------------------------------------------------------------------------------
 def calc_nondim_squeeze_volume(
@@ -18,7 +20,7 @@ def calc_nondim_squeeze_volume(
     flow_cont: float,
     flow_disp: float,
     flow_gutter: float,
-) -> float:
+) -> Optional[float]:
     """
     Calculate the non-dimensionalized volume of the droplet due to squeezing phase
 
@@ -35,6 +37,9 @@ def calc_nondim_squeeze_volume(
     squeeze_volume = calc_squeezing_volume(
         height, width, inlet_width, epsilon, flow_cont, flow_disp, flow_gutter
     )
+
+    if 0 in [height, width, inlet_width]:
+        return None
 
     nondim_volume = squeeze_volume / (height * (width**2))
 
