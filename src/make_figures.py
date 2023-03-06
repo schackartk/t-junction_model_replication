@@ -429,15 +429,6 @@ def main() -> None:
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
 
-    # color_mapping = {
-    #     "0.33": "#10f900",
-    #     "0.67": "#21cd12",
-    #     "1.0": "#25a918",
-    #     "1.33": "#268b19",
-    #     "2.0": "#246e18",
-    #     "3.0": "#1f4f16",
-    # }
-
     color_mapping = {
         "0.33": "#CF232B",
         "0.67": "#CF232B",
