@@ -10,7 +10,7 @@ In this work, we develop Python modules that implement the mathematical model an
 replicate the figures in the original work. The model
 could be fully replicated based solely on the contents of the original article.
 However, one figure provided in the original work was inconsistent with the
-model equations while another could not be fully replicated.
+model equations while another could be replicated but with a small discrepancy.
 
 \section{Introduction}
 
@@ -161,7 +161,7 @@ the perimeter of the emerging droplet ($l_{gutter}$).
 This is summarized as:
 
 \begin{equation}
-  V_{fill} = V_{gross} - 2*V_{gutter} = hA_{droplet} - 2A_{gutter}l_{gutter} \label{fill_vol}
+  V_{fill} = V_{gross} - 2V_{gutter} = hA_{droplet} - 2A_{gutter}l_{gutter} \label{fill_vol}
 \end{equation}
 
 \noindent In the module, $A_{droplet}$ is calculated piece-wise using geometry (\emph{e.g.} area of quarter circle with 
@@ -210,7 +210,7 @@ were developed, each with accompanying unit tests.
 
 To fully replicate the results in the original work, the figures showing model outputs were
 replicated using the modules that were developed. A Python script imports the necessary
-functions from the squeezing and filling modules and uses Pandas\supercite{team_pandas_2020} v1.5.1
+functions from the modules and uses Pandas\supercite{team_pandas_2020} v1.5.1
 and plotnine\supercite{kibirige_plotnine_2022} v0.10.1 to create the figures.
 This section will describe how each figure was replicated.
 
@@ -232,7 +232,7 @@ $w_{in}$ to obtain the necessary ratios.
 
 The dimensionless fill volume was then calculated for each point using the module that was
 developed. These series of points were then plotted, the axes were scaled identically to the
-original work, and a color mapping was applied to the width ratios $\frac{w_{in}}{w}$.
+original work.
 
 \subsubsection{Figure O2b}
 
@@ -261,8 +261,8 @@ Channel height ($h$), inlet width ($w_{in}$), and dispersed phase flow rate ($q_
 achieve the necessary ratios. Corner roundness ($\varepsilon$) was computed based on channel width using the
 relationship described above. 1000 data points were generated for each of the six series.
 
-The dimensionless volume of the squeezing phase and filling phase were calculated using their
-respective modules, and the sum of the two was computed. This total dimensionless volume was plotted
+The total dimensionless volume was calculated using the module that combines the squeezing and filling
+phase contributions. This total dimensionless volume was plotted
 in the same manner as in the original work.
 
 \subsubsection{Figure O6}
@@ -272,7 +272,7 @@ by channel width ($2r/w$) against time ($t$) multiplied by $\frac{q_c}{hw^2}$. W
 flow rate $q_c = 3{\mu}L\;\mathrm{min}^{-1}$, height $h=33{\mu}m$, width $w=100{\mu}m$, and corner roundness
 $\varepsilon=0.1w$. Three series are shown, corresponding to various width ratios ($\frac{w_{in}}{w}$).
 Additionally, a horizontal line, $\frac{2r_{pinch}}{w}=\frac{h}{h+w}$, is added corresponding to
-their experimentally determined threshold at which pinch-off of the droplet occurs.
+the predicted threshold at which pinch-off of the droplet occurs.
 
 While the independent axis ($\frac{q_c}{hw^2}t$) can be generated using the provided geometries, and varying
 time to get values in the required range (\emph{i.e.,} $\frac{q_c}{hw^2}t \in [0,10]$), the dependent axis,
@@ -486,15 +486,16 @@ The plot of squeezing coefficient (Figure \ref{fig2b}) exactly replicates Figure
 \subsubsection{Figure O3}
 
 The figure of total fill volume (Figure \ref{fig3}) very closely replicates Figure O3, with a small
-difference. For all lines corresponding to gas bubbles, the replicated figure appears to be
-an exact match. However, for the single line corresponding to the liquid-liquid droplets, the
+difference. For all lines corresponding to gas bubbles (solid lines), the replicated figure appears to be
+an exact match. However, for the single line corresponding to the liquid-liquid droplets (dashed line), the
 slope is steeper than in our figure.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\linewidth]{../figures/fig_3.png}
   \caption{Total dimensionless volume, $\frac{V}{hw^2}$ against flow rate ratio $\frac{q_d}{q_c}$
-  for various width ratios and dispersed fluid types. Replication of Figure O3.}
+  for various width ratios and dispersed fluid types. Gas bubbles are shown with solid lines, liquid-liquid droplets
+  shown with dashed line. Replication of Figure O3.}
   \label{fig3}
 \end{figure}
 
@@ -557,8 +558,9 @@ the geometry-based code provided assurance that our model implementation was cor
 we could test the results of the verbose code against the simplified equation. This became very
 useful when exact replication of Figure O2a was elusive.
 
-Exact replication of Figure O2a was a matter of luck and the product of typing the simplified
-equation into several programming languages (assuming we had made some mistake), despite the
+Exact replication of Figure O2a was a matter of luck. When our initial implementation of the
+model equations did not match the original figure, we resorted to implementing the simplified
+equation in several programming languages, assuming we had made some mistake despite the
 verbose code matching our implementation of the simplified equation. It is fortunate that we
 happened to eventually make the same mistake as the original authors one of those times. This
 allowed us to exactly replicate their figure.
