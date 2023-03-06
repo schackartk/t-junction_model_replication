@@ -63,12 +63,13 @@ of a consistent volume. Such platforms have been used for a variety of applicati
 such as chemical microreactors, biological screening assays, and DNA analysis.
 It is often critical that the volume of the
 bubbles or droplets are consistent and predictable. A mathematical model was
-previously developed for predicting the volume of bubbles and droplets formed in
+previously developed by van Steijn et al., for predicting the volume of bubbles and droplets formed in
 microfluidic T-junctions, however, their code was not made readily available.
 In this work, we develop Python modules that implement the mathematical model and 
-replicate the figures in the original work. While the model
-could be replicated, some results shown in the original work were flawed while others
-could not be replicated exactly."
+replicate the figures in the original work. The model
+could be fully replicated based solely on the contents of the original article.
+However, one figure provided in the original work was inconsistent with the
+model equations while another could be replicated but with a small discrepancy."
 
 # Bibliography file (yours)
 bibliography: bibliography.bib
