@@ -2,7 +2,8 @@
 T-junction droplet/bubble size prediction
 ~~~
 This module contains the functions for predicting the total
-volume of droplets/bubbles produced in a microfluidic T-junction.
+volume of droplets/bubbles produced in a microfluidic T-junction using the model
+presented in van Steijn et al., (https://doi.org/10.1039/c002625e)
 
 Author: Kenneth Schackart <schackartk1@gmail.com>
 """

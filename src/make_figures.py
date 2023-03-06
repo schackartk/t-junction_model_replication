@@ -2,7 +2,7 @@
 """
 Author : Kenneth Schackart <schackartk1@gmail.com>
 Date   : 2023-01-29
-Purpose: Generate figures from paper
+Purpose: Generate figures from van Steijn et al., (https://doi.org/10.1039/c002625e)
 """
 
 import argparse

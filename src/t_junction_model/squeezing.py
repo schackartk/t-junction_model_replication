@@ -1,7 +1,8 @@
 """
 Squeezing
 ~~~
-Define functions used during the squeezing phase
+Define functions used during the squeezing phase of the model presented in
+van Steijn et al., (https://doi.org/10.1039/c002625e)
 Author: Kenneth Schackart <schackartk1@gmail.com>
 """
 
