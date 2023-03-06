@@ -61,10 +61,10 @@ def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9
     plotted against channel height/width for 5 inlet width/width ratios
 
     Arguments:
-    `color_mapping`: Dictionary mappying hex colors to width ratios
+    `color_mapping`: Dictionary mapping hex colors to width ratios
     `filling_function`: Function to use for calculating nondimensionalized
-    filling volume (either utils.filling.calc_nondim_fill_volume
-    or utils.filling.calc_incorrect_nondim_fill_volume)
+    filling volume (either t_junction_model.filling.calc_nondim_fill_volume
+    or t_junction_model.filling.calc_incorrect_nondim_fill_volume)
     """
 
     widths = [1.0]
@@ -132,7 +132,7 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     plotted against channel height/width for 5 inlet width/width ratios
 
     Arguments:
-    `color_mapping`: Dictionary mappying hex colors to width ratios
+    `color_mapping`: Dictionary mapping hex colors to width ratios
     """
 
     widths = [1.0]
@@ -205,7 +205,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
     against flow rate ratio for 5 width ratios
 
     Arguments:
-    `color_mapping`: Dictionary mappying hex colors to width ratios
+    `color_mapping`: Dictionary mapping hex colors to width ratios
     """
 
     continuous_flow = 1.0
@@ -330,7 +330,7 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
     Generate figure 6: receding interface during squeezing period
 
     Arguments:
-    `color_mapping`: Dictionary mappying hex colors to width ratios
+    `color_mapping`: Dictionary mapping hex colors to width ratios
     """
 
     width = 100 * 10**-6
