@@ -309,7 +309,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
             "path",
             x=[8, 8],
             y=[11, 13.5],
-            arrow=p9.arrow(length=0.075, type="closed", ends="last", angle=35),
+            arrow=p9.arrow(length=0.075, type="closed", ends="last", angle=20),
         )
         + p9.theme_light()
         + p9.labs(
