@@ -89,6 +89,9 @@ def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9
         filling_df["inlet_width"] / filling_df["width"], 2
     )
     filling_df["width_ratio"] = filling_df["width_ratio"].astype(str)
+    filling_df["width_ratio_labs"] = filling_df.apply(
+        lambda row: "w_in/w=" + row.width_ratio, axis=1
+    )
 
     filling_df["nondim_vol"] = filling_df.apply(
         lambda row: filling_function(row.height, row.width, row.inlet_width),
@@ -97,15 +100,26 @@ def make_fig_2a(color_mapping: dict[str, str], filling_function: Callable) -> p9
 
     plot = (
         p9.ggplot(
-            filling_df, p9.aes("height_over_width", "nondim_vol", color="width_ratio")
+            filling_df,
+            p9.aes("height_over_width", "nondim_vol", color="width_ratio"),
         )
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
+        + p9.geom_label(
+            filling_df[filling_df["height_over_width"] == 0.25],
+            p9.aes(
+                label="width_ratio_labs",
+            ),
+            size=8,
+            color="black",
+            label_size=0,
+        )
         + p9.scale_y_continuous(
             breaks=[tick / 10 for tick in list(range(0, 22, 2))], limits=[0, 2]
         )
         + p9.theme_light()
-        + p9.labs(x="h/w", y="Dimensionless fill volume", color="w_in / w")
+        + p9.labs(x="h/w", y="Dimensionless fill volume")
+        + p9.theme(legend_position="none")
     )
 
     return plot
@@ -146,6 +160,9 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
     alpha_df["height_over_width"] = alpha_df["height"] / alpha_df["width"]
     alpha_df["width_ratio"] = round(alpha_df["inlet_width"] / alpha_df["width"], 2)
     alpha_df["width_ratio"] = alpha_df["width_ratio"].astype(str)
+    alpha_df["width_ratio_labs"] = alpha_df.apply(
+        lambda row: "w_in/w=" + row.width_ratio, axis=1
+    )
 
     alpha_df["alpha"] = alpha_df.apply(
         lambda row: _calc_alpha(
@@ -164,8 +181,18 @@ def make_fig_2b(color_mapping: dict[str, str]) -> p9.ggplot:
         + p9.geom_line()
         + p9.scale_y_continuous(breaks=list(range(0, 9, 1)), limits=[0, 8])
         + p9.scale_color_manual(color_mapping)
+        + p9.geom_label(
+            alpha_df[alpha_df["height_over_width"] == 0.25],
+            p9.aes(
+                label="width_ratio_labs",
+            ),
+            size=8,
+            color="black",
+            label_size=0,
+        )
         + p9.theme_light()
-        + p9.labs(x="h/w", y="Squeezing coefficient", color="w_in / w")
+        + p9.labs(x="h/w", y="Squeezing coefficient")
+        + p9.theme(legend_position="none")
     )
 
     return plot
@@ -252,9 +279,15 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         ),
         axis=1,
     )
+    vol_df["width_ratio_labs"] = vol_df.apply(
+        lambda row: "w_in/w=" + row.width_ratio, axis=1
+    )
 
     y_max = 25
     vol_df = vol_df[vol_df["vol"] <= y_max]
+    label_df = vol_df[vol_df["vol"] <= 25 - 2.5 * (vol_df["flow_ratio"] - 0.009)]
+    label_df = label_df[label_df["vol"] >= 25 - 2.5 * (label_df["flow_ratio"] + 0.009)]
+    label_df["flow_ratio"][label_df["type"] == "droplets"] = 8
     plot = (
         p9.ggplot(
             vol_df, p9.aes("flow_ratio", "vol", color="width_ratio", linetype="type")
@@ -263,6 +296,21 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
         + p9.scale_color_manual(color_mapping)
         + p9.ylim(0, y_max)
         + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
+        + p9.geom_label(
+            label_df,
+            p9.aes(
+                label="width_ratio_labs",
+            ),
+            size=8,
+            color="black",
+            label_size=0,
+        )
+        + p9.annotate(
+            "path",
+            x=[8, 8],
+            y=[11, 13.5],
+            arrow=p9.arrow(length=0.075, type="closed", ends="last", angle=35),
+        )
         + p9.theme_light()
         + p9.labs(
             x="Flow rate ratio (disp. / cont.)",
@@ -270,6 +318,7 @@ def make_fig_3(color_mapping: dict[str, str]) -> p9.ggplot:
             color="w_in / w",
             linetype="Type",
         )
+        + p9.theme(legend_position="none")
     )
 
     return plot
@@ -327,6 +376,9 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
         axis=1,
     )
     df["2r_w"] = df["2r"] / df["width"]
+    df["width_ratio_labs"] = df.apply(lambda row: "w_in/w=" + row.width_ratio, axis=1)
+    lab_df = df[df["2r_w"] >= 0.1 * (df["alpha"] - 0.09) + 0.275]
+    lab_df = lab_df[lab_df["2r_w"] <= 0.1 * (lab_df["alpha"] + 0.09) + 0.275]
 
     y_max = 1.2
     df = df[df["2r_w"] <= y_max]
@@ -338,12 +390,30 @@ def make_fig_6(color_mapping: dict[str, str]) -> p9.ggplot:
         )
         + p9.geom_line()
         + p9.scale_color_manual(color_mapping)
+        + p9.geom_label(
+            lab_df,
+            p9.aes(
+                label="width_ratio_labs",
+            ),
+            size=8,
+            color="black",
+            label_size=0,
+        )
         + p9.scale_y_continuous(
             breaks=[tick / 10 for tick in list(range(0, 14, 2))], limits=[0, y_max]
+        )
+        + p9.annotate(
+            "label",
+            x=4.5,
+            y=pinch_thresh,
+            label="2r/w = h/(h+w)",
+            size=8,
+            label_size=0,
         )
         + p9.scale_x_continuous(breaks=[0, 2, 4, 6, 8, 10])
         + p9.theme_light()
         + p9.labs(x="Dimensionless time", y="2r/w", color="w_in / w")
+        + p9.theme(legend_position="none")
     )
 
     return plot
@@ -359,13 +429,22 @@ def main() -> None:
     if not os.path.isdir(out_dir):
         os.makedirs(out_dir)
 
+    # color_mapping = {
+    #     "0.33": "#10f900",
+    #     "0.67": "#21cd12",
+    #     "1.0": "#25a918",
+    #     "1.33": "#268b19",
+    #     "2.0": "#246e18",
+    #     "3.0": "#1f4f16",
+    # }
+
     color_mapping = {
-        "0.33": "#10f900",
-        "0.67": "#21cd12",
-        "1.0": "#25a918",
-        "1.33": "#268b19",
-        "2.0": "#246e18",
-        "3.0": "#1f4f16",
+        "0.33": "#CF232B",
+        "0.67": "#CF232B",
+        "1.0": "#CF232B",
+        "1.33": "#CF232B",
+        "2.0": "#CF232B",
+        "3.0": "#CF232B",
     }
 
     print("Generating figures...")
