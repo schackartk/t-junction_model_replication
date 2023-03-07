@@ -10,19 +10,23 @@
 ![mypy](https://img.shields.io/badge/%20type_checker-mypy-%231674b1?style=flat)
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 
-This repository contains the code used to replicate the mathematical modeling results found in van Steijn V., *et al.,* 2010 for submission to ReScience C.
+This repository contains the code used to replicate the mathematical modeling results found in [van Steijn V., *et al.,* 2010](https://www.researchgate.net/publication/45114766_Predictive_model_for_the_size_of_bubbles_and_droplets_created_in_microfluidic_T-junctions) for submission to ReScience C.
 
 # Overview
 
-This reposity has two main parts: (1) python modules and (2) a script for figure replication. This section describes those parts.
+This repository contains a replication study of [van Steijn V., *et al.,* 2010](https://www.researchgate.net/publication/45114766_Predictive_model_for_the_size_of_bubbles_and_droplets_created_in_microfluidic_T-junctions). The original article presents a model for predicting the size (volume) of bubbles and droplets formed in a microfluidic T-junction. The model divides the process into *filling* and *squeezing* phases. This repository includes Python modules implementing the model logic, a script for replicating the original figures, and an article describing the replication study.
 
 ## Modules
 
-This repository contains Python modules which capture the model logic presented in van Steijn *et al.,*. Those modules are located in [src/t_junction_model/](./src/t_junction_model/). These modules are provided for enhanced generalizability; they can be used to model/predict the size of bubbles/droplets formed in microfluidic T-juctions by importing them into a Python script and using the provided functions.
+The Python modules are located in [src/t_junction_model/](./src/t_junction_model/). These modules are provided for enhanced generalizability; they can be used to model/predict the size of bubbles/droplets formed in microfluidic T-juctions by importing them into a Python script and using the provided functions.
 
 ## Figure replication
 
 To directly replicate the figures in van Steijn *et al.,*, a script is provided that uses all the necessary assumptions and geometries. The script [src/make_figures.py](src/make_figures.py) is directly executable. By providing this script, one can replicate the figures without working directly with the underlying modules. More details on this are found in the section [Replicating results](#replicating-results).
+
+## Article
+
+The article describing this replication is located in [article/article.pdf](article/article.pdf). This article may help the user better understand the context of this project.
 
 # Repository Structure
 
@@ -33,7 +37,7 @@ The following is a brief overview of the contents of this respository:
 ├── .reports/        # Static code check reports & badges
 ├── LICENSE          # License file
 ├── Makefile         # Make commands
-├── article/         # Article (LaTeX) contents
+├── article/         # Article (LaTeX/pdf) contents
 ├── environment.yml  # Conda environment description
 ├── figures/         # Replicated figures
 ├── requirements.txt # pip requirements
