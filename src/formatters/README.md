@@ -1,6 +1,6 @@
-# Project Utilities
+# Formatters
 
-This directory contains utilities used in this project that are not directly related to modeling T-junction droplet/bubble formation.
+This directory contains a shell script and Python module, both of which are used for formatting outputs to the terminal.
 
 ```sh
 .

@@ -4,11 +4,15 @@ This directory contains code used for replicating the figures modelling the form
 
 ```sh
 .
+├── formatters/                 # Utilities for formatting outputs
 ├── t_junction_model/           # Python modules
 ├── tests/                      # Unit and integration tests
-├── utils/                      # Project utilities
 └── make_figures.py             # Script for replicating figures
 ```
+
+## `formatters/`
+
+This directory contains a shell script and Python module, both of which are used for formatting outputs to the terminal.
 
 ## `t_junction_model/`
 
@@ -19,10 +23,6 @@ These modules are ideal for reuse of the developed mathematical model. While `ma
 ## `tests/`
 
 This directory contains the unit and integration tests for the source code in this project.
-
-## `utils/`
-
-This directory contains utilities used in this project that are not directly related to modeling T-junction droplet/bubble formation.
 
 ## `make_figures.py`
 
