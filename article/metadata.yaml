@@ -17,7 +17,7 @@ authors:
     
   - name: Kattika Kaarj
     orcid: 0000-0002-0054-6519
-    email: kkaarj@
+    email: kattika.k@sut.ac.th
     affiliations: 2      # * is for contact author
 
 # List of affiliations with code (corresponding to author affiliations), name
@@ -26,7 +26,7 @@ authors:
 affiliations:
   - code:    1
     name:    Department of Biosystems Engineering, The University of Arizona
-    address: Tucson, Arizona, USA
+    address: Tucson, Arizona 85721, USA
 
   - code:    2
     name:    School of Biology, Institute of Science, Suranaree University of Technology
