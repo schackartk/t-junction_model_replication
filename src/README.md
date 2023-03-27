@@ -1,6 +1,6 @@
 # Source code
 
-This directory contains code used for replicating the figures modelling the formation of droplets and bubbles in microfuilic T-junctions.
+This directory contains code used for replicating the figures modeling the formation of droplets and bubbles in microfuilic T-junctions.
 
 ```sh
 .
@@ -28,7 +28,7 @@ This directory contains the unit and integration tests for the source code in th
 
 The script `make_figures.py` can be executed to generate the figures which replicate those in the original work.
 
-This script imports several functions from the modules within `module/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
+This script imports several functions from the modules within `t_junction_model/`. Only the mathematical modeling portions of the figures in the original work are replicated, not plotting of empirical data.
 
 Help for this script can be accessed with `-h|--help`:
 
