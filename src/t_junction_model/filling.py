@@ -169,7 +169,7 @@ def _calc_circle_fraction_area(radius: float, portion: float) -> float:
     Calculate a fraction of the area of a circle
 
     Arguments:
-    `diameter`: circle radius
+    `radius`: circle radius
     `portion`: Portion of circle area as decimal
     """
 
@@ -211,7 +211,7 @@ def _calc_gutter_volume(height: float, gutter_length: float) -> float:
     Calculate the volume of an individual gutter
 
     Arguments:
-    `gutter_area`: cross sectional area of gutter
+    `height`: channel height
     `gutter_length`: length of gutter (droplet perimeter)
     """
 
