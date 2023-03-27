@@ -44,7 +44,7 @@ def test_runs_okay() -> None:
     """Runs on good input"""
 
     out_dir = random_string()
-    out_file_names = ["fig_2a.png", "fig_2a_incorrect.png", "fig_3.png", "fig_6.png"]
+    out_file_names = ["fig_2a.png", "fig_2a_incorrect.png", "fig_2b.png", "fig_3.png", "fig_6.png"]
 
     try:
         if os.path.isdir(out_dir):
