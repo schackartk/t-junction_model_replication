@@ -243,8 +243,8 @@ values as Figure O2a. However, six width ratios ($\frac{w_{in}}{w}$) are plotted
 This figure was again replicated using 1000 data points per width ratio. Channel width ($w$) was
 held constant while $h$ and $w_{in}$ were varied. As in the original work the corner roundness
 $\varepsilon=0$. The flow rate of the continuous phase was set as $q_c=1$, and the flow rate of the
-gutter was $q_{gutter}=0.1*q_c$ such that $\frac{q_{gutter}}{q_c}=0.1$, as described in the original
-work.
+gutter was calculated as $q_{gutter}=0.1*q_c$ such that $\frac{q_{gutter}}{q_c}=0.1$, as described
+in the original work.
 
 The squeezing coefficient was calculated based on these values using the function in the
 squeezing module, and plotted using the same axis scales as the original work.
@@ -347,8 +347,8 @@ $$
   \left(1-\frac{q_{gutter}}{q_c}\right)t\right)}}{2}
 \end{equation}
 
-\noindent Therefore $R$ can be evaluated as a function of time (taking the positive of the square root), and
-$2r$ can thus be calculated as:
+\noindent Therefore $R$ can be evaluated as a function of time (taking the positive of the square root) and
+$2r$ can then be calculated as:
 
 \begin{equation}
   2r = R - \sqrt{\left(R - w\right)^2 + \left(R - w_{in}\right)^2} + \varepsilon
@@ -357,7 +357,7 @@ $2r$ can thus be calculated as:
 \noindent Functions for both $R$ as a function of time, and $2r$ were added
 to the squeezing module.
 
-For replication of Figure O6, the provided geometries for $w$, $h$, and $q_c$ were used. 1000
+For replication of Figure O6, the provided geometries for $w$, $h$, and $q_c$ were used. 1000 data
 points for each inlet width ratio were generated spanning $\frac{q_c}{hw^2}t \in [0,10]$ by varying 
 $t$. Corner roundness ($\varepsilon$) was calculated based on $w$ as described. $2r$ was
 computed using the squeezing module and divided by $w$ for plotting. As in Figure O6, linetype
@@ -407,10 +407,10 @@ The figure generated using our modules (Figure \ref{fig2a}) is similar to
 Figure O2a in the original work. However, for $\frac{w_{in}}{w}>1$, the
 lines have a markedly more negative slope than those in Figure O2a.
 
-Interestingly however, a plot exactly matching Figure O2a could be achieved
+Interestingly however, a plot matching Figure O2a could be achieved
 (Figure \ref{fig2a_bad}). To do so,
 a separate function was written to calculate the dimensionless fill volume. In this function,
-the volume is not calculated using geometry, but instead used the equation in the original work,
+the volume is not calculated using geometry, but instead uses the equation in the original work,
 but neglecting a pair of parentheses.
 
 The portion of equation \eqref{nondim_fill_vol} that was modified is as follows.
@@ -419,7 +419,7 @@ The equation presented in the original work contains:
 $$
 \left(\left(\frac{\pi}{2} -
 \arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} +
-\frac{\pi}{2}\right)\frac{h}{w}
+\frac{\pi}{2}\right)
 $$
 
 \noindent The rest of the equation was unmodified, however, the above portion was replaced with:
@@ -427,7 +427,7 @@ $$
 $$
 \left(\frac{\pi}{2} -
 \arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w} +
-\frac{\pi}{2}\right)\frac{h}{w}
+\frac{\pi}{2}\right)
 $$
 
 \noindent Which can be simplified to:
@@ -435,7 +435,7 @@ $$
 $$
 \left(\pi -
 \arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w}
-\right)\frac{h}{w}
+\right)
 $$
 
 \noindent This is not equivalent to the unmodified version, \emph{i.e.,}:
@@ -443,11 +443,11 @@ $$
 $$
 \left(\pi -
 \arcsin\left(1 - \frac{w}{w_{in}}\right)\frac{w_{in}}{w}
-\right)\frac{h}{w}
+\right)
 \neq
 \left(\left(\frac{\pi}{2} -
 \arcsin\left(1 - \frac{w}{w_{in}}\right)\right)\frac{w_{in}}{w} +
-\frac{\pi}{2}\right)\frac{h}{w}
+\frac{\pi}{2}\right)
 $$
 
 \noindent A unit test was also written which asserts that for several $\frac{w_{in}}{w}>1$, the 
@@ -469,12 +469,12 @@ the same value.
   \end{subfigure}
   \caption{Dimensionless fill volume, $\frac{V_{fill}}{hw^2}$ against $\frac{h}{w}$
   for four width ratios using a) the correct model, and b) an
-  incorrect equation to exactly replicate Figure O2a.}
+  incorrect equation to replicate Figure O2a.}
 \end{figure}
 
 \subsubsection{Figure O2b}
 
-The plot of squeezing coefficient (Figure \ref{fig2b}) exactly replicates Figure O2b.
+The plot of squeezing coefficient (Figure \ref{fig2b}) replicates Figure O2b.
 
 \begin{figure}[ht]
   \centering
@@ -520,7 +520,7 @@ the corresponding Figure O6 well.
 \subsection{Model replication}
 
 Python modules were developed that successfully replicate the model in the original work.
-These modules have excellent code testing coverage, and adhere to Python community guidelines.
+These modules have strong code testing coverage, and adhere to Python community guidelines.
 Model logic was organized into modules to keep it separate from the specific geometries
 used to replicate the figures. By doing so, it is easier to test the functions constituting
 the model and makes it easy to reuse the code for generalization. All module functions can be
@@ -532,7 +532,7 @@ All figures could be replicated, although with one discrepancy in our figure cor
 Figure O3.
 
 Given that the same functions from the modules are used to calculate dimensionless volume for both
-liquid-liquid droplets and air bubbles, and that the air bubble results match exactly, it is
+liquid-liquid droplets and air bubbles, and that the air bubble results match theirs, it is
 unlikely that the modules are incorrect. This means that one or more of the provided geometries
 are different in our implementation and theirs.
 
@@ -541,7 +541,7 @@ as $\frac{w_{in}}{w}=0.67$ though the figure caption states $\frac{w_{in}}{w}=1.
 perhaps the true ratio was $0.67$. However, reducing this ratio only reduces the slope,
 exacerbating the discrepancy.
 
-Remarkably, it appears that the experimental results plotted in Figure O3
+Notably, it appears that the experimental results plotted in Figure O3
 more closely match the line for liquid-liquid droplets in our Figure \ref{fig3}
 than theirs. This may be an indication that when generating model results, they incorrectly
 entered one or more geometric parameter.
@@ -551,8 +551,8 @@ entered one or more geometric parameter.
 Developing verbose geometry-based functions in the filling module was slightly difficult to do.
 The original work gives some explanation of how the equations were derived, but many steps were
 omitted. This is understandable since describing in full detail would result in extremely long
-exposition. Indeed, the granularity of the geometric calculations performed in the modules
-is greater than described here for the same reason.
+exposition. For the same reason, the geometric calculations performed in our modules
+are even more low-level than described here.
 
 While replication could have been done by simply using the simplified equation, having
 the geometry-based code provided assurance that our model implementation was correct since
@@ -563,12 +563,12 @@ Exact replication of Figure O2a was a matter of luck. When our initial implement
 model equations did not match the original figure, we resorted to implementing the simplified
 equation in several programming languages, assuming we had made some mistake despite the
 verbose code matching our implementation of the simplified equation. It is fortunate that we
-happened to eventually make the same mistake as the original authors one of those times. This
-allowed us to exactly replicate their figure.
+happened to eventually make what we believe is the same mistake as the original authors one of
+those times, allowing us to replicate their figure.
 
-The fact that the original authors, and eventually we, made mistakes in entering that equation
+The fact that eventually we, and likely the original authors, made mistakes in entering that equation
 demonstrates how easy it is to make mistakes that can greatly affect results when writing code.
-This is precisely why tests are so important. Unit testing makes it far more likely that
+This illustrates the practical utility of software tests. Unit testing makes it far more likely that
 such bugs will be caught in development.
 
 Perhaps the greatest challenge to replicating the original results came from their
